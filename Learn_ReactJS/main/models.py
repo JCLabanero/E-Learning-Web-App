@@ -23,7 +23,8 @@ from datetime import datetime
 # > new_learn1.save()
 # > Learn1.objects.all() 
 # > for t in Learn1.objects.all():
-# >     print(t.title) 
+# >     print(t.title)
+# > exit() 
 
 class Learn1(models.Model):
     title = models.CharField(max_length=200)

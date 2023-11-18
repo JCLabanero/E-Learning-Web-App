@@ -15,4 +15,5 @@ class Learn1Admin(admin.ModelAdmin):
         ("Content",{"fields":["content"]})
     ]
 
+
 admin.site.register(Learn1,Learn1Admin)
