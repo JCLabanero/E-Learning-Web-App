@@ -6,35 +6,48 @@
 
 - [Installation](#installation)
 
-1. First create virtual environment
+1. Create a virtual environment
 
         python -m venv EnvironmentName
 
-  2. Second activate the environment to install dependencies and runserver
+2. Activate the environment to install dependencies and run the server
 
+   2.1. Activate the environment outside/inside (2.1/2.2) EnvironmentName directory.
 
-        ```EnvironmentName/scripts/activate```
+   - Outside EnvironmentName directory.
+   
+     ```
+     EnvironmentName/scripts/activate
+   - inside EnvironmentName directory.
 
-or
+     2.1.1. Change directory into EnvironmentName.
+                
+             cd EnvironmentName
+     
+     2.1.2. Run the active in EnvironmentName.
 
-        cd EnvironmentName
-then
+             scripts/activate
 
-        scripts/activate
+   2.2. if error says: filepath + cannot be loaded  because running scripts is disabled on this system.
 
-if error says: filepath + cannot be loaded  because running scripts is disabled on this system.
+   2.2.1 Resolve by setting Execution Policy
 
-        Set-ExecutionPolicy remotesigned -scope process
+           Set-ExecutionPolicy remotesigned -scope process
+   
+   2.2.2 Proceed to step 2.1
+        
       
-  3. Third
-  4. Fourt
-  5. Fifth
-  6. Sixth
+3. Git Clone This Project
+   - Make sure to cd into EnviromentName directory
+   - After cloning cd into E-Learning-Web-App and install apps and dependencies
+     ```
+        pip install -r requirements.txt
+     ```
+     ```
+        pip install --upgrade -r requirements.txt
+     ```
+4. Fourt
 
-
-  ```pip install -r requirements.txt```
-
-  ```pip install --upgrade -r requirements.txt```
   
 - [Usage](#usage)
 - [Contributing](#contributing)
