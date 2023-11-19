@@ -5,6 +5,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
+    ```pip install -r requirements.txt```
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
