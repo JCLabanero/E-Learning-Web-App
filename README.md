@@ -66,3 +66,11 @@ python Learn_Reactjs/manage.py dumpdata main --output Learn_ReactJS/main/fixture
 ```
 python manage.py loaddata Learn_Reactjs/main/fixtures/data.json
 ```
+
+```
+Set-ExecutionPolicy remotesigned -scope process
+```
+
+```
+../scripts/activate
+```
