@@ -57,15 +57,20 @@
 ![Version](https://img.shields.io/badge/Version-1.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-red)
 
-Developer commands
+##Developer commands
+\*save data from database
 
 ```
 python Learn_Reactjs/manage.py dumpdata main --output Learn_ReactJS/main/fixtures/data.json
 ```
 
+\*load data from database
+
 ```
 python manage.py loaddata Learn_Reactjs/main/fixtures/data.json
 ```
+
+##Start
 
 ```
 Set-ExecutionPolicy remotesigned -scope process
