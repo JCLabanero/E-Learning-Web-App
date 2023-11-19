@@ -34,6 +34,12 @@ class Learn1(models.Model):
     def __str__(self):
         return self.title
 
+class Unit(models.Model):
+    #id
+    #title
+    #holds lesson in it
+    pass
+
 class Lesson(models.Model):
     #id
     #fk instructor, who created this lesson, might not be necessary
