@@ -70,3 +70,25 @@ jengga
 		><i class="material-icons">input</i></a
 	>
 </main>
+
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Python: Django",
+			"python": "C:\\Users\\Gifer\\Documents\\Programming Projects - Python\\E-Learning Web Application\\Python Project 2023\\scripts\\python.exe",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}\\Learn_ReactJS\\manage.py",
+			"args": ["runserver"],
+			"console": "internalConsole",
+			"django": true,
+			"justMyCode": false
+		}
+	]
+}
+
+  {% comment %} <link href="{% static "tinymce/my-styles.css" %}" rel="stylesheet" /> {% endcomment %}

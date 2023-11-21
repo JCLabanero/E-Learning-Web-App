@@ -4,15 +4,15 @@
   {% load static %} 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}">
-  <link href="{% static "tinymce/my-styles.css" %}" rel="stylesheet" />
+  {% comment %} <link href="{% static "tinymce/my-styles.css" %}" rel="stylesheet" /> {% endcomment %}
   {% endblock head %}
   {% block body %}
   <body>
       <header>
           <nav>
               <div class="nav-wrapper container">
-                <a href="#!" class="brand-logo">Logo</a>
-                <ul class="right hide-on-med-and-down">
+                <a href="/" class="brand-logo">Logo</a>
+                <ul class="right">
                   <li><a href="/login">Login</a></li>
                   <li><a class="waves-effect waves-light btn green darken-1" href="/register">Register</a></li>
                 </ul>
@@ -49,14 +49,23 @@
       </footer>
       <!-- Compiled and minified JavaScript -->
       <script src="{% static "main/js/materialize.js" %}"></script>
-      <script>
-          M.AutoInit();
-          document.addEventListener('DOMContentLoaded', function() {
-              var elems = document.querySelectorAll('.collapsible');
-              var instances = M.Collapsible.init(elems, options);
+    
+        <!--prettier-ignore -->
+        {% if messages %}
+        
+        <!--prettier-ignore -->
+        {% for message in messages %}
+        
+        <script>
+            M.toast({
+                html: "{{message}}",
+                classes: "blue rounded",
+                displayLength: 2000,
             });
-      </script>
-      {% comment %} <script src="{% static "tinymce/tinymce.min.js" %}"></script> {% endcomment %}
+        </script>
+        <!--prettier-ignore -->
+        {% endfor %} 
+        {% endif %}       
   </body>
   {% endblock body %}
 

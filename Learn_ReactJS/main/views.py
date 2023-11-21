@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Learn1
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
 
 # Create your views here.
 
@@ -19,15 +20,23 @@ def login(request):
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
-        if(form.is_valid()):
+        if form.is_valid():
             user = form.save()
-            login(request,user)
-            return redirect("main:homepage")
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New account created: {username}")
+            # login(request,user)
+            return redirect("main:login")
         else:
-            for msg in form.error_messages:
-                print(form.error_messages[msg])
+            for fields in form:
+                for error in fields.errors:
+                    messages.error(request,f"{fields.label}: {error}")
+            return render(
+            request,
+            "main/register.html",
+            context={"form": form}
+            )
 
     form = UserCreationForm
     return render(request,
-                  "main/register.html",
-                  context={"form":form})
+                "main/register.html",
+                context={"form":form})
