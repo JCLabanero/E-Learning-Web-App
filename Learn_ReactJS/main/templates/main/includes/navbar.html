@@ -1,0 +1,22 @@
+<nav>
+	<div class="nav-wrapper container">
+		<a href="/" class="brand-logo">Logo</a>
+		<ul class="right">
+			{% if user.is_authenticated %}
+			<li><a href="/login">{{ user.username }}</a></li>
+			<li>
+				<a class="waves-effect waves-light btn green darken-1" href="/register"
+					>Log out</a
+				>
+			</li>
+			{% else %}
+			<li><a href="/login">Login</a></li>
+			<li>
+				<a class="waves-effect waves-light btn green darken-1" href="/register"
+					>Register</a
+				>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
