@@ -8,6 +8,15 @@
   {% endblock head %}
   {% block body %}
       <header>
+        <nav>
+        <div class="nav-wrapper container">
+          <a href="/" class="brand-logo">Logo</a>
+          <ul class="right">
+            <li><a href="/login">Login</a></li>
+            <li><a class="waves-effect waves-light btn green darken-1" href="/register">Register</a></li>
+          </ul>
+        </div>
+      </nav>
       </header>
       <main class="container">
           {% block content %}{% endblock %}
