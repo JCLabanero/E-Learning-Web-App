@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Learn1
+from .models import Learn1, Student
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.urls import reverse
 
 # Create your views here.
 
-def homepage(request):
+def index(request):
     # return HttpResponse("Hello, World")
     return render(request=request,
-                  template_name="main/home.html",
+                  template_name="main/index.html",
                   context={"Learn1":Learn1.objects.all})
 
 def login(request):
@@ -40,3 +41,44 @@ def register(request):
     return render(request,
                 "main/register.html",
                 context={"form":form})
+
+def admin_home(request):
+    template = "main/admin_home.html"
+    students = Student.objects.all()
+
+    context = {
+        "title" : "Student",
+        "students" : students
+    }
+
+    return render(request,template,context)
+
+def admin_add_student(request):
+    #template
+    pass
+
+def admin_save_student(request):
+    student = Student()
+    student.student_no = request.Get['student_no']
+    student.firstname = request.Get['firstname']
+    student.lastname = request.Get['lastname']
+    student.save()
+
+    # return HttpResponseRedirect(reverse('index'))
+
+def funcStudentAdd(request):
+    student = Student()
+
+
+def funcStudentUpdate(request,id):
+    student = Student.objects.get(id=id)
+    student.student_no = request.Get['student_no']
+    student.firstname = request.Get['firstname']
+    student.lastname = request.Get['lastname']
+    student.save()
+
+def funcStudentDelete(request,id):
+    student = Student(id=id)
+    student.delete
+
+    # return HttpResponseRedirect(reverse('index'))

@@ -1,0 +1,16 @@
+{% extends "main/header.html" %}
+{% block content %}
+
+{% for std in students %}
+<p>
+    {{ std.student_no }}
+    <br>
+    {{ std.firstname }}
+    <br>
+    {{ std.lastname }}
+</p>
+{% comment %} <a href="{% url "admin_update_student" %}"></a> {% endcomment %}
+
+{% endfor %}
+
+{% endblock content %}

@@ -26,26 +26,41 @@ from datetime import datetime
 # >     print(t.title)
 # > exit() 
 
+class Student(models.Model):
+    student_no = models.IntegerField("Student No.","student_no")
+    firstname = models.CharField("First Name","firstname",max_length=200,default="firstname")
+    lastname = models.CharField("Last Name","lastname",max_length=200,default="lastname")
+    email = models.CharField("Email","email",max_length=200,default="email")
+
 class Learn1(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = models.TextField(default="The content of the lesson should go here.")
     published = models.DateTimeField("date published", default=datetime.now())
 
     def __str__(self):
         return self.title
 
 class Unit(models.Model):
+    unit_no = models.IntegerField("Unit No.","unit_no",default=1)
+    title = models.CharField("Name","name",max_length=200)
     #id
-    #title
     #holds lesson in it
     pass
 
 class Lesson(models.Model):
-    #id
+    #id auto generated
+    title = models.CharField("Title","title",max_length=200,default="Title here")
+    content = models.TextField("Content","content",default="The content of the lesson should go here.")
+    # unit_no = models.IntegerField(max_length=20,verbose_name="Lesson No.", name="lesson_no")
+    published = models.DateTimeField("date published", default=datetime.now())
+
+    unit_no = models.ForeignKey(Unit, on_delete=models.CASCADE,default=0)
+
+    def __str__(self) -> str:
+        return self.title
     #fk instructor, who created this lesson, might not be necessary
 
     #unit number
-    pass
 
 class Assessment(models.Model):
     #id
