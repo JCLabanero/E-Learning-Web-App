@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{% load static %}
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet" />
+		<link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+		<title>Document</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<div class="nav-wrapper container">
+					<a href="#" class="brand-logo">Logo</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a href="{% url "main:students" %}">studentlist</a></li>
+						<li><a href="badges.html">Components</a></li>
+						<li><a href="collapsible.html">JavaScript</a></li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<br>
+		<main class="container">
+			<table class="highlight">
+				<thead>
+				  <tr>
+					  <th>Student number</th>
+					  <th>First Name</th>
+					  <th>Last Name</th>
+					  <th>Email</th>
+					  <th>Actions</th>
+				  </tr>
+				</thead>
+		
+				<tbody>
+					{% comment %} <a href="{% url "admin_update_student" %}"></a> {% endcomment %}
+					
+					{% for std in students %}
+					<tr>
+						<td>
+							{{ std.student_no }}
+						</td>
+						<td>
+							{{ std.firstname }}
+						</td>
+						<td>
+							{{ std.lastname }}
+						</td>
+						<td>
+							{{ std.email }}
+						</td>
+						<td class="centered">
+							<a class="btn">Update</a>
+							<a class="btn red accent-3">Remove</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</main>
+	</body>
+</html>

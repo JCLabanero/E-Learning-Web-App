@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Learn1, Student
 from django.contrib.auth.forms import UserCreationForm
@@ -43,7 +43,7 @@ def register(request):
                 context={"form":form})
 
 def admin_home(request):
-    template = "main/admin_home.html"
+    template = "main/admin/a.html"
     students = Student.objects.all()
 
     context = {
@@ -53,11 +53,36 @@ def admin_home(request):
 
     return render(request,template,context)
 
-def admin_add_student(request):
+def astudentlist(request):
+    return render(request, 'main/admin/students.html', {'students': Student.objects.all()})
+
+def astudentinfo(request,pk):
+    student = get_object_or_404(Student,pk=pk)
+    return render(request,'main/admin/student_info.html',{'student':student})
+
+def astudentnew(request):
     #template
+    if request.method == "POST":
+        form = Student(request.POST)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.save()
+            return redirect('main:a')
+    else:
+        form = Student()
+    return render(request,'main/admin/student_new.html',{'form':form})
+    # student = Student()
     pass
 
-def admin_save_student(request):
+def astudentedit(request):
+    # render html editor
+    pass
+
+def astudentdelete(request):
+    # confirmation?
+    pass
+
+def funcStudentNew(request):
     student = Student()
     student.student_no = request.Get['student_no']
     student.firstname = request.Get['firstname']
@@ -65,10 +90,6 @@ def admin_save_student(request):
     student.save()
 
     # return HttpResponseRedirect(reverse('index'))
-
-def funcStudentAdd(request):
-    student = Student()
-
 
 def funcStudentUpdate(request,id):
     student = Student.objects.get(id=id)

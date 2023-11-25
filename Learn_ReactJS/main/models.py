@@ -27,7 +27,7 @@ from datetime import datetime
 # > exit() 
 
 class Student(models.Model):
-    student_no = models.IntegerField("Student No.","student_no")
+    student_no = models.IntegerField("Student No.","student_no",primary_key=True,unique=True)
     firstname = models.CharField("First Name","firstname",max_length=200,default="firstname")
     lastname = models.CharField("Last Name","lastname",max_length=200,default="lastname")
     email = models.CharField("Email","email",max_length=200,default="email")
