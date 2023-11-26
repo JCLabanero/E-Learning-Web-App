@@ -1,30 +1,8 @@
 from django.db import models
 from datetime import datetime
 
-# Create your models here.
+# Model django documentation.
 # https://docs.djangoproject.com/en/4.2/ref/models/fields/
-
-#python models command
-## for changes/updates/creates
-#python manage.py makemigrations
-
-## migrate to other db?
-#python manage.py sqlmigrate main 0001
-
-#python manage.py migrate
-
-## 
-# python manage.py shell
-# cmd 
-# > from main.models import Learn1
-# > from django.utils import timezone 
-# > Learn1.objects.all()
-# > new_learn1 = Learn1(title="To be", content="...or not to be", published=timezone.now())
-# > new_learn1.save()
-# > Learn1.objects.all() 
-# > for t in Learn1.objects.all():
-# >     print(t.title)
-# > exit() 
 
 class Student(models.Model):
     student_no = models.IntegerField("Student No.","student_no",primary_key=True,unique=True)

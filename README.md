@@ -47,7 +47,13 @@
       ```
          pip install --upgrade -r requirements.txt
       ```
-4.  Fourt
+4.  Make migrations to have updated models
+    ```
+    python manage.py makemigrations
+    ```
+    ```
+    python manage.py migrate
+    ```
 
 - [Usage](#usage)
 - [Contributing](#contributing)
