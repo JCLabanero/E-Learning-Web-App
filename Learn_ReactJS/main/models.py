@@ -11,7 +11,7 @@ from datetime import datetime
 ## migrate to other db?
 #python manage.py sqlmigrate main 0001
 
-#pyton manage.py migrate
+#python manage.py migrate
 
 ## 
 # python manage.py shell
