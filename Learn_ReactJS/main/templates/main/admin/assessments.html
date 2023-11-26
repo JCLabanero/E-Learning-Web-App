@@ -1,0 +1,78 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Document</title>
+
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+    <style>
+        .btn-small{
+            margin-right: 10px;
+        }
+        .collapsible-body, .collapsible-header{
+            padding:5px;
+        }
+        .collapsible-body{
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container row">
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header row valign-wrapper">
+                        <p class="col s10">Quizzes</p>
+                        <button class="btn-small col s2 waves-effect waves-light actionBtn">Add New Quiz</button>
+                    </div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <div class="valign-wrapper row">
+                                    <a href="lesson1-1.html" class="col s12">Lesson 1</a>
+                                    <button class="btn-small">Edit</button>
+                                    <button class="btn-small red">remove</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header row valign-wrapper">
+                        <p class="col s10">Examinations</p>
+                        <button class="btn-small col s2 waves-effect waves-light actionBtn">Add New Exam</button>
+                    </div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <div class="valign-wrapper row">
+                                    <a href="lesson1-1.html" class="col s12">Lesson 1</a>
+                                    <button class="btn-small">Edit</button>
+                                    <button class="btn-small red">remove</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <script>
+        M.AutoInit();
+        $(document).ready(function() {
+            $('.collapsible-header .actionBtn').click(function(event) {
+            event.stopPropagation();
+            });
+            $('.collapsible').collapsible();
+        });
+    </script>
+</body>
+</html>
