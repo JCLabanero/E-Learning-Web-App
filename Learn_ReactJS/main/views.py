@@ -43,7 +43,7 @@ def register(request):
                 context={"form":form})
 
 def admin_home(request):
-    template = "main/admin/a.html"
+    template = "main/admin/index.html"
     students = Student.objects.all()
 
     context = {
@@ -83,6 +83,8 @@ def astudentdelete(request):
     pass
 
 def funcStudentNew(request):
+    if request.method=="POST":
+        form = Student(request.POST)
     student = Student()
     student.student_no = request.Get['student_no']
     student.firstname = request.Get['firstname']
