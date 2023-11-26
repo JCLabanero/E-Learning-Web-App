@@ -103,3 +103,19 @@ def funcStudentDelete(request,id):
     student.delete
 
     # return HttpResponseRedirect(reverse('index'))
+
+def alessonList(request):
+    #replace obj with lesson
+    return render(request, 'main/admin/lesson.html', {'lesson': Student.objects.all()})
+
+def aAssessments(request):
+    return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
+
+def aAchievements(request):
+    return render(request, 'main/admin/achievements.html', {'achievements': Student.objects.all()})
+
+def aReports(request):
+    return render(request, 'main/admin/reports.html', {'reports': Student.objects.all()})
+
+def aLogs(request):
+    return render(request, 'main/admin/activityLogs.html', {'logs': Student.objects.all()})
