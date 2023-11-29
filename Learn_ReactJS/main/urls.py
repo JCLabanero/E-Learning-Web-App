@@ -22,6 +22,8 @@ urlpatterns = [
     path('a/viewLesson/',views.aOpenLesson, name="viewLesson"),
     path('a/lesson/lessonEditor/',views.aLessonEditor, name="edit-lesson"),
 
+    path('a/profile/',views.profile, name="profile"),
+
 
 
 

@@ -127,3 +127,6 @@ def aOpenLesson(request):
 
 def aLessonEditor(request):
     return render(request, 'main/admin/lessonEditor.html', {'logs': Student.objects.all()})
+
+def profile(request):
+    return render(request, 'main/myprofile.html', {'logs': Student.objects.all()})
