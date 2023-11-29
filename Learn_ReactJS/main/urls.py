@@ -19,6 +19,10 @@ urlpatterns = [
     path('a/reports/',views.aReports, name="reports"),
     path('a/logs/',views.aLogs, name="logs"),
 
+    path('a/viewLesson/',views.aOpenLesson, name="viewLesson"),
+    path('a/lesson/lessonEditor/',views.aLessonEditor, name="edit-lesson"),
+
+
 
 
     # path('u/',views.use)

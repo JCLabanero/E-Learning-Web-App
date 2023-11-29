@@ -1,0 +1,77 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tiny.cloud/1/xervcooe8f3ms8edh906ysdceywtls38l4yywnigy1zx1jk1/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>    
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+    <title>Lesson Editor</title>
+    <style>
+        textarea{
+            resize: none;
+        }
+        .collapsible-body, .collapsible-header{
+            padding:5px;
+        }
+        .collapsible-body{
+            /* padding-left: 20px; */
+            padding: 20px 20px;
+        }
+    </style>
+</head>
+<main class="row">
+    <div class="container col s2">
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header valign-wrapper">
+                    <p>Unit 1</p>
+                </div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li>
+                            <div class="valign-wrapper">
+                                <a href="">Lesson 1</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="container">   
+        <textarea>
+            Welcome to Lesson Editor
+        </textarea> <br>
+            <div class="row center">
+                <button class="btn-large center-align">Add</button>
+                <button class="btn-large center-align red">Cancel</button>
+            </div> 
+    </div>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        height: 700,
+        plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+          { value: 'First.Name', title: 'First Name' },
+          { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+    });
+    M.AutoInit();
+    $(document).ready(function(){
+        $('.collapsible-header .actionBtn').click(function(event) {
+        event.stopPropagation();
+        });
+        $('.collapsible').collapsible();
+    });
+</script>
+
+</main>
+</html>

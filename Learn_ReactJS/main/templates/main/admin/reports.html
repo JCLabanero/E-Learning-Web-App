@@ -1,0 +1,81 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{% load static %}
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet" />
+		<link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+		<title>Document</title>
+        <style>
+            .card{
+                padding: 5px;
+            }
+            .custom-gap .col {
+        margin-right: 100px; /* Adjust the margin to increase or decrease the gap */
+    }
+        </style>
+	</head>
+	<body>
+		<br>
+		<main class="container">
+            <div class="row">
+                <input type="text" class="datepicker col s2" placeholder="Start Date">
+                <b class="col s1"> - </b>
+                <input type="text" class="datepicker col s2" placeholder="End Date">
+            </div>
+            <div class="card">
+                <div class="row">
+                    <img src="{% static 'main/assets/signup.png' %}" alt="" height="180" width="180" class="col s2">
+                    <div class="container">
+                        <b>Enrollments</b>
+                        <p>
+                            Congratulations! 🎉 You have achieved a remarkable milestone. Over the period from <b>MM-DD-YYYY</b> to <b>MM-DD-YYYY</b>, you have successfully gained a total of <b>XX</b> enrollments. This is a testament to your hard work, dedication, and commitment to excellence. Your efforts have made a positive impact, and we appreciate your valuable contributions. Keep up the fantastic work, and we look forward to witnessing your continued success and growth in the future. You're making a difference, and we're proud to have you on the team! 👏
+                        </p>
+                    </div>
+                </div><br>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <img src="{% static 'main/assets/signup.png' %}" alt="" height="180" width="180" class="col s2">
+                    <div class="container">
+                        <b>Enrollments</b>
+                        <p>
+                            Congratulations! 🎉 You have achieved a remarkable milestone. Over the period from <b>MM-DD-YYYY</b> to <b>MM-DD-YYYY</b>, you have successfully gained a total of <b>XX</b> enrollments. This is a testament to your hard work, dedication, and commitment to excellence. Your efforts have made a positive impact, and we appreciate your valuable contributions. Keep up the fantastic work, and we look forward to witnessing your continued success and growth in the future. You're making a difference, and we're proud to have you on the team! 👏
+                        </p>
+                    </div>
+                </div><br>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <img src="{% static 'main/assets/signup.png' %}" alt="" height="180" width="180" class="col s2">
+                    <div class="container">
+                        <b>Enrollments</b>
+                        <p>
+                            Congratulationss! 🎉 You have achieved a remarkable milestone. Over the period from <b>MM-DD-YYYY</b> to <b>MM-DD-YYYY</b>, you have successfully gained a total of <b>XX</b> enrollments. This is a testament to your hard work, dedication, and commitment to excellence. Your efforts have made a positive impact, and we appreciate your valuable contributions. Keep up the fantastic work, and we look forward to witnessing your continued success and growth in the future. You're making a difference, and we're proud to have you on the team! 👏
+                        </p>
+                    </div>
+                </div><br>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <img src="{% static 'main/assets/signup.png' %}" alt="" height="180" width="180" class="col s2">
+                    <div class="container">
+                        <b>Enrollments</b>
+                        <p>
+                            Congratulations! 🎉 You have achieved a remarkable milestone. Over the period from <b>MM-DD-YYYY</b> to <b>MM-DD-YYYY</b>, you have successfully gained a total of <b>XX</b> enrollments. This is a testament to your hard work, dedication, and commitment to excellence. Your efforts have made a positive impact, and we appreciate your valuable contributions. Keep up the fantastic work, and we look forward to witnessing your continued success and growth in the future. You're making a difference, and we're proud to have you on the team! 👏
+                        </p>
+                    </div>
+                </div><br>
+            </div>
+		</main>
+	</body>
+    <script>
+        $(document).ready(function(){
+            $('.datepicker').datepicker();
+        });
+    </script>
+</html>
