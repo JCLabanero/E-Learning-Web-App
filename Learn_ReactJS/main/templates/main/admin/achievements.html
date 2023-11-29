@@ -1,0 +1,196 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Document</title>
+
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+    <style>
+        .btn-small{
+            margin-right: 10px;
+        }
+        .collapsible-body, .collapsible-header{
+            padding:5px;
+        }
+        .collapsible-body{
+            padding-left: 20px;
+        }
+        .modal-trigger{
+            cursor: pointer;
+            margin: 0px 10px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <button class="btn-small white black-text" id="collapse">Collapse All</button>
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header">
+                        <h5>&nbsp;Badges</h5>
+                    </div>
+                    <div class="collapsible-body row">
+                        <ul>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Badge Title 1</b></p>
+                                    <input type="hidden" id="description" value="Description of badge 1">
+                                    <input type="hidden" id="requirement" value="Requirement for badge 1">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Badge Title 2</b></p>
+                                    <input type="hidden" id="description" value="Description of badge 2">
+                                    <input type="hidden" id="requirement" value="Requirement for badge 2">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Badge Title 3</b></p>
+                                    <input type="hidden" id="description" value="Description of badge 3">
+                                    <input type="hidden" id="requirement" value="Requirement for badge 3">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Badge Title 4</b></p>
+                                    <input type="hidden" id="description" value="Description of badge 4">
+                                    <input type="hidden" id="requirement" value="Requirement for badge 4">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Badge Title 5</b></p>
+                                    <input type="hidden" id="description" value="Description of badge 5">
+                                    <input type="hidden" id="requirement" value="Requirement for badge 5">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <h5>&nbsp;Certifications</h5>
+                    </div>
+                    <div class="collapsible-body row">
+                        <ul>
+                            <li>
+                                <div class="container center col s2 modal-trigger" href="#badgeModal">
+                                    <img src="{% static 'main/assets/sample cert.png' %}" alt="" height="170" width=170>
+                                    <p><b>Sample Certificate Title 1</b></p>
+                                    <input type="hidden" id="description" value="Description of certificate 1">
+                                    <input type="hidden" id="requirement" value="Requirement for certificate 1">
+                                    <div class="row">
+                                        <Button class="btn-small green">Edit</Button>
+                                        <Button class="btn-small red">Delete</Button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="modal" id="badgeModal">
+            <div class="modal-content">
+                <div class="container center">
+                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width="170" id="badgeCert">
+                    <p class="col s6" id="badgeCertTitle"><b>Sample</b></p>
+                </div>
+                <div class="divider"></div>
+                <h6><b>Description</b></h6>
+                <p id="modalDescription">Sample Description Here...</p>
+                <div class="divider"></div>
+                <h6><b>Requirement</b></h6>
+                <p id="modalRequirement">requirements here...</p>
+                <div class="divider"></div><br>
+                <div class="container row center-align">
+                    <button class="btn-small red waves-effect waves-light center" id="closeModal">Close</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        M.AutoInit();
+        // $(document).ready(function() {
+        //     $('.collapsible-header .actionBtn').click(function(event) {
+        //     event.stopPropagation();
+        //     });
+        //     $('.collapsible').collapsible();
+        // });
+        var elems = document.querySelector('.collapsible');
+        var instances = M.Collapsible.init(elems);
+        document.addEventListener('DOMContentLoaded', function () {
+            instances.open();
+        });
+        $('.collapsible-header').on('click', function(){
+            setTimeout(()=>{
+                if($('.collapsible-body').attr('style') == 'display: block;'){
+                    $('#collapse').text('Collapse All')
+                }else{
+                    $('#collapse').text('Expand All')                    
+                }
+            },100)
+        })
+        $('#collapse').on('click', function(){
+            if($(this).text() == "Collapse All"){
+                instances.close();
+                $(this).text('Expand All')
+            }else if($(this).text() == "Expand All"){
+                instances.open();
+                $(this).text('Collapse All')
+            }
+        })
+        $('.modal-trigger').on('click', function(){
+            image = $(this).find('img').attr('src');
+            title = $(this).find('p').text();
+            description = $(this).find('#description').val()
+            requirement = $(this).find('#requirement').val()
+            console.log(title)
+            setTimeout(()=>{
+                $('#badgeCert').attr('src', image);
+                $('#badgeCertTitle b').text(title);
+                $('#modalDescription').text(description);
+                $('#modalRequirement').text(requirement);
+            },1)
+        })
+        $('#closeModal').on('click', function(){
+            var elems = document.querySelector('.modal');
+            var instances = M.Modal.getInstance(elems);
+            instances.close();
+        })
+    </script>
+</body>
+</html>
