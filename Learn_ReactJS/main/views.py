@@ -119,3 +119,9 @@ def aReports(request):
 
 def aLogs(request):
     return render(request, 'main/admin/activityLogs.html', {'logs': Student.objects.all()})
+
+def aOpenLesson(request):
+    return render(request, 'main/admin/viewLesson.html', {'logs': Student.objects.all()})
+
+def aLessonEditor(request):
+    return render(request, 'main/admin/lessonEditor.html', {'logs': Student.objects.all()})
