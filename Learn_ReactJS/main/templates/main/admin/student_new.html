@@ -1,6 +1,8 @@
-<form action="{% url "func_students_new" %}" method="POST">
-	<input type="text" name="username" id="student_no" />
-	<input type="text" name="username" id="firstname" />
-	<input type="text" name="password" id="lastname" />
+<form action="{% url "main:func_students_new" %}" method="POST">
+	<input type="text" name="stud_no" id="student_no" />
+	<input type="text" name="email" id="email" />
+	<input type="text" name="username" id="username" />
+	<input type="text" name="firstname" id="firstname" />
+	<input type="text" name="lastname" id="lastname" />
 	<button type="submit">Add</button>
 </form>
