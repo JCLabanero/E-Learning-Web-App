@@ -1,0 +1,101 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Document</title>
+
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+    <style>
+        .btn-small{
+            margin-right: 10px;
+        }
+        .collapsible-body, .collapsible-header{
+            padding:5px;
+        }
+        .collapsible-body{
+            padding-left: 20px;
+        }
+        .card{
+            padding: 10px 0px;
+        }
+        #profilepic{
+            border: 3px solid #4fc3f7;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <form action="">
+                <div class="card">
+                    <div class="center">
+                        <sub>ID: 2019446578</sub><br><br>
+                        <img src="{% static 'main/assets/default-user-image.png'%}" alt="" height="150" width="150" class="circle modal-trigger" id="profilepic" href="#profilepicModal"><br><br>
+                        <button class="btn-small green waves-effect waves-light" type="button">Change Image</button>
+                    </div><br>
+                    <div class="container row">
+                        <div class="divider"></div><br>
+                        <div class="col s12">
+                            <label for="fname">Username</label>
+                            <input type="text" class="validate" name="username" placeholder="Username">
+                        </div>
+                        <div class="col s6">
+                            <label for="fname">First Name</label>
+                            <input type="text" class="validate" name="fname" placeholder="First name">
+                        </div>
+                        <div class="col s6">
+                            <label for="fname">Last Name</label>
+                            <input type="text" class="validate" name="lname" placeholder="Last name">
+                        </div>
+                        <div class="col s12">
+                            <label for="fname">E-mail Address</label>
+                            <input type="email" class="validate" name="email" placeholder="E-mail Address">
+                        </div>
+                        <div class="col s12">
+                            <label for="fname">Password</label>
+                            <input type="password" class="s" name="fname" placeholder="Last name">
+                        </div>
+                        <div class="col s12 center">
+                            <br>
+                            <button class="btn-small green waves-effect waves-light" type="submit">Save</button>
+                            <button class="btn-small red waves-effect waves-light" type="button">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal" id="profilepicModal">
+            <div class="container modal-content center">
+                <img src="" alt="" height="500" width="500" id="viewProfile">  
+            </div>
+            <div class="divider"></div><br>
+            <div class="container row center-align">
+                <button class="btn-small red waves-effect waves-light center" id="closeModal">Close</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        M.AutoInit();
+        $(document).ready(function() {
+            $('.collapsible-header .actionBtn').click(function(event) {
+            event.stopPropagation();
+            });
+            $('.collapsible').collapsible();
+        });
+        $('.modal-trigger').on('click', function(){
+            image = $(this).attr('src');
+            $('#viewProfile').attr('src', image);
+        })
+        $('#closeModal').on('click', function(){
+            var elems = document.querySelector('.modal');
+            var instances = M.Modal.getInstance(elems);
+            instances.close();
+        })
+    </script>
+</body>
+</html>

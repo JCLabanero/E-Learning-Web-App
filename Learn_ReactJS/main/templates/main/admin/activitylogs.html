@@ -1,0 +1,82 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Document</title>
+
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
+    <style>
+        .btn-small{
+            margin-right: 10px;
+        }
+        .collapsible-body, .collapsible-header{
+            padding:5px;
+        }
+        .collapsible-body{
+            padding-left: 20px;
+        }
+        thead{
+            color: white;
+            background-color: #4fc3f7;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="card">
+                <table class="striped highlight">
+                    <thead>
+                        <tr>
+                            <th>Operation Name</th>
+                            <th>Timestamp</th>
+                            <th>Activity</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <ul class="pagination center">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+              </ul>
+        </div>
+    </main>
+    <script>
+        M.AutoInit();
+        $(document).ready(function() {
+            $('.collapsible-header .actionBtn').click(function(event) {
+            event.stopPropagation();
+            });
+            $('.collapsible').collapsible();
+        });
+        for(x = 0; x < 30; x++){
+            $('tbody').append(`
+            <tr>
+                <td>Sample</td>
+                <td>Sample</td>
+                <td>Sample</td>
+                <td>Sample</td>
+            </tr>
+            `)
+            // if(x%20 == 0){
+            //     $('.pagination').append('<li class="waves-effect"><a href="#!">'+(x/20)+1+'</a></li>')
+            // }
+        }
+    </script>
+</body>
+</html>
