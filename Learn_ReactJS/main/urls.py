@@ -19,7 +19,7 @@ urlpatterns = [
     path('a/reports/',views.aReports, name="reports"),
     path('a/logs/',views.aLogs, name="logs"),
 
-    path('a/lesson/<str:title>/',views.funcLoadLesson, name="viewLesson"),
+    path('a/lesson/id=<int:id>/',views.funcLoadLesson, name="viewLesson"),
     path('a/lesson/lessonEditor/',views.aLessonEditor, name="edit-lesson"),
 
     path('a/profile/',views.profile, name="profile"),

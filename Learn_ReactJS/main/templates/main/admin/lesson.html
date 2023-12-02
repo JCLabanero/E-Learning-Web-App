@@ -38,7 +38,7 @@
                             {% for lesson in lessons %}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="{% url 'main:viewLesson' lesson.title%}" class="col s12">{{lesson.title}}</a>
+                                    <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
                                     <button class="btn-small col s1 waves-effect waves-light" onclick="location.href='{% url 'main:edit-lesson'%}'">Edit</button>
                                     <button class="btn-small red col s2 waves-effect waves-light">remove</button>
                                 </div>

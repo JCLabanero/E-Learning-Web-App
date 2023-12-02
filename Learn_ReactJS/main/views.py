@@ -113,11 +113,11 @@ def funcLessonList(request):
     }
     return render(request, template, context)
 
-def funcLoadLesson(request, title):
+def funcLoadLesson(request, id):
     template = 'main/admin/viewLesson.html' 
     context = {
         "lessons": Learn1.objects.all(),
-        "lesson": Learn1.objects.get(title=title)
+        "lesson": Learn1.objects.get(id=id)
     }
     return render(request, template, context)
 

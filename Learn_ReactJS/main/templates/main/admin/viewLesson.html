@@ -24,8 +24,12 @@
         h1{
             margin: 0px 0px 50px 0px;
         }
-        .container.col.s12.card{
+        .container.col.s12.card{    
             padding: 20px;
+        }
+        .container.col.s12.card > ul > li {
+            padding-left:30px;
+            list-style-type: circle;
         }
     </style>
 </head>
@@ -42,7 +46,7 @@
                             {% for lesson in lessons %}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="{% url 'main:viewLesson' lesson.title%}" class="col s12">{{lesson.title}}</a>
+                                    <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
                                 </div>
                             </li>
                             {% endfor %}
