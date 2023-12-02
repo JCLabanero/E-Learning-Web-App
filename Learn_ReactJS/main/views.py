@@ -106,6 +106,23 @@ def funcStudentDelete(request,id):
 
     # return HttpResponseRedirect(reverse('index'))
 
+def funcLessonList(request):
+    template = 'main/admin/lesson.html'
+    context = {
+        "lessons": Learn1.objects.all()
+    }
+    return render(request, template, context)
+
+def funcLoadLesson(request, title):
+    template = 'main/admin/viewLesson.html' 
+    context = {
+        "lessons": Learn1.objects.all(),
+        "lesson": Learn1.objects.get(title=title)
+    }
+    return render(request, template, context)
+
+
+
 def alessonList(request):
     #replace obj with lesson
     return render(request, 'main/admin/lesson.html', {'lesson': Student.objects.all()})

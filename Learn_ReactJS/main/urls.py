@@ -13,13 +13,13 @@ urlpatterns = [
     path('a/students/new/student',views.funcStudentNew, name="func_students_new"),
     path('a/students/<int:pk>/edit/',views.astudentedit, name="students_edit"),
     path('a/students/<int:pk>/delete/',views.astudentdelete, name="students_delete"),
-    path('a/lesson/',views.alessonList, name="lesson"),
+    path('a/lesson/',views.funcLessonList, name="lesson"),
     path('a/assessments/',views.aAssessments, name="assessments"),
     path('a/achievements/',views.aAchievements, name="achievements"),
     path('a/reports/',views.aReports, name="reports"),
     path('a/logs/',views.aLogs, name="logs"),
 
-    path('a/viewLesson/',views.aOpenLesson, name="viewLesson"),
+    path('a/lesson/<str:title>/',views.funcLoadLesson, name="viewLesson"),
     path('a/lesson/lessonEditor/',views.aLessonEditor, name="edit-lesson"),
 
     path('a/profile/',views.profile, name="profile"),
