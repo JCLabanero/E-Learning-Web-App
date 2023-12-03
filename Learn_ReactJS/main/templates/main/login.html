@@ -9,14 +9,22 @@
 <main>
 <div class="login-page">
 	<div class="form">
-	  <form class="register-form">
-		<input type="text" placeholder="username"/>
-		<input type="password" placeholder="password"/>
-		<input type="text" placeholder="email"/>
+		<form class="register-form" id="register-form" action="{% url 'main:register' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input type="text" name="username" placeholder="username" required/>
+		<input type="text" name="firstname" placeholder="First Name" required/>
+		<input type="text" name="lastname" placeholder="Last Name" required/>
+		<input type="password" name="password" placeholder="password" required/>
+		<input type="text" name="email" placeholder="email" required/>
+		<select name="type" required>
+			<option value="Student">Student</option>
+			<option value="Teacher">Teacher</option>
+		</select>
+		<input type="file" id="userImage" name="userImage" accept="image/*">
 		<button type="submit">create</button>
 		<p class="message">Already registered? <a href="#">Sign In</a></p>
 	  </form>
-	  <form class="login-form">
+	  <form class="login-form" id="login-form">
 		<input type="text" placeholder="username"/>
 		<input type="password" placeholder="password"/>
 		<button type="submit">login</button>
