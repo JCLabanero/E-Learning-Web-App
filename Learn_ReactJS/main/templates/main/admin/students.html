@@ -17,7 +17,7 @@
         <br>
         <a href="{% url "main:students_new" %}" class="btn">Add</a>
         <br>
-        <table class="highlight">
+        <table class="highlight card">
             <thead>
               <tr>
                   <th>Student number</th>
@@ -30,35 +30,14 @@
             </thead>
     
             <tbody>
-                {% comment %} <a href="{% url "admin_update_student" %}"></a> {% endcomment %}
-                <tr>
-                    <td>
-                        20191150987
-                    </td>
-                    <td>
-                        JuanGenggeng
-                    </td>
-                    <td>
-                        Juan
-                    </td>
-                    <td>
-                        Dela Cruz
-                    </td>
-                    <td>
-                        JuanDC@gmail.com
-                    </td>
-                    <td class="centered">
-                        <a class="btn">Update</a>
-                        <a class="btn red accent-3">Remove</a>
-                    </td>
-                </tr>
                 {% for std in students %}
                 <tr>
                     <td>
                         {{ std.student_no }}
                     </td>
                     <td>
-                        {{ std.username }}
+                        {% comment %} wala pa sa models {% endcomment %}
+                        {{ std.username}}
                     </td>
                     <td>
                         {{ std.firstname }}

@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <title>Document</title>
 
+
     {% load static %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
@@ -34,13 +35,15 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
+                            {% for lesson in lessons %}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="{% url 'main:viewLesson' %}" class="col s12">Lesson 1</a>
+                                    <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
                                     <button class="btn-small col s1 waves-effect waves-light" onclick="location.href='{% url 'main:edit-lesson'%}'">Edit</button>
                                     <button class="btn-small red col s2 waves-effect waves-light">remove</button>
                                 </div>
                             </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </li>

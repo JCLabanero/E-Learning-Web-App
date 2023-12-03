@@ -24,6 +24,13 @@
         h1{
             margin: 0px 0px 50px 0px;
         }
+        .container.col.s12.card{    
+            padding: 20px;
+        }
+        .container.col.s12.card > ul > li {
+            padding-left:30px;
+            list-style-type: circle;
+        }
     </style>
 </head>
 <body>
@@ -36,21 +43,24 @@
                     </div>
                     <div class="collapsible-body">
                         <ul>
+                            {% for lesson in lessons %}
                             <li>
-                                <div class="valign-wrapper">
-                                    <a href="">Lesson 1</a>
+                                <div class="valign-wrapper row">
+                                    <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
                                 </div>
                             </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </li>
             </ul>
         </div>
         <div class="container col s12 card">            
-            <h3>Title Of Lesson</h3>
+            {% comment %} <h3>Title Of Lesson</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras scelerisque, orci sed ultricies convallis, felis odio condimentum orci, ut fringilla orci urna in magna. Quisque eget nunc ante. Ut aliquam a eros tincidunt blandit. Duis imperdiet turpis nec neque tincidunt, nec porttitor metus rhoncus. Cras at quam et tortor pulvinar pharetra vitae ut mi. Mauris lacinia suscipit pellentesque. Sed turpis sapien, porta sit amet neque id, feugiat vehicula nunc. Sed a congue risus, ac eleifend turpis. Fusce nibh magna, cursus at viverra quis, commodo in purus. Cras sed ligula eu nunc bibendum tincidunt. Etiam consectetur metus quis tortor dapibus, eu tincidunt urna sodales. Integer eu varius massa, eu condimentum erat. Nulla et arcu a elit interdum gravida.</p>
             <h4>Sub topics</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras scelerisque, orci sed ultricies convallis, felis odio condimentum orci, ut fringilla orci urna in magna. Quisque eget nunc ante. Ut aliquam a eros tincidunt blandit. Duis imperdiet turpis nec neque tincidunt, nec porttitor metus rhoncus. Cras at quam et tortor pulvinar pharetra vitae ut mi. Mauris lacinia suscipit pellentesque. Sed turpis sapien, porta sit amet neque id, feugiat vehicula nunc. Sed a congue risus, ac eleifend turpis. Fusce nibh magna, cursus at viverra quis, commodo in purus. Cras sed ligula eu nunc bibendum tincidunt. Etiam consectetur metus quis tortor dapibus, eu tincidunt urna sodales. Integer eu varius massa, eu condimentum erat. Nulla et arcu a elit interdum gravida.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras scelerisque, orci sed ultricies convallis, felis odio condimentum orci, ut fringilla orci urna in magna. Quisque eget nunc ante. Ut aliquam a eros tincidunt blandit. Duis imperdiet turpis nec neque tincidunt, nec porttitor metus rhoncus. Cras at quam et tortor pulvinar pharetra vitae ut mi. Mauris lacinia suscipit pellentesque. Sed turpis sapien, porta sit amet neque id, feugiat vehicula nunc. Sed a congue risus, ac eleifend turpis. Fusce nibh magna, cursus at viverra quis, commodo in purus. Cras sed ligula eu nunc bibendum tincidunt. Etiam consectetur metus quis tortor dapibus, eu tincidunt urna sodales. Integer eu varius massa, eu condimentum erat. Nulla et arcu a elit interdum gravida.</p> {% endcomment %}
+            {{lesson.content|safe}}
         </div>
     </main>
     <script>

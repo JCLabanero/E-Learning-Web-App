@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from .models import Learn1, Student
+from django.http import HttpResponse, JsonResponse
+from .models import Learn1, Student, Account, Quiz, Quiz_Question, Assessment, Assessment_Question, Badge
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -19,28 +19,39 @@ def login(request):
                   template_name="main/login.html")
 
 def register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New account created: {username}")
-            # login(request,user)
-            return redirect("main:login")
-        else:
-            for fields in form:
-                for error in fields.errors:
-                    messages.error(request,f"{fields.label}: {error}")
-            return render(
-            request,
-            "main/register.html",
-            context={"form": form}
-            )
+    # if request.method == "POST":
+    #     form = UserCreationForm(request.POST)
+    #     if form.is_valid():
+    #         user = form.save()
+    #         username = form.cleaned_data.get('username')
+    #         messages.success(request, f"New account created: {username}")
+    #         # login(request,user)
+    #         return redirect("main:login")
+    #     else:
+    #         for fields in form:
+    #             for error in fields.errors:
+    #                 messages.error(request,f"{fields.label}: {error}")
+    #         return render(
+    #         request,
+    #         "main/register.html",
+    #         context={"form": form}
+    #         )
+    # form = UserCreationForm
+    # return render(request,
+    #             "main/register.html",
+    #             context={"form":form})
+    if request.method == 'POST':
+        account = Account()
+        account.username = request.POST['username']
+        account.password = request.POST['password']
+        account.firstname = request.POST['firstname']
+        account.lastname = request.POST['lastname']
+        account.email = request.POST['email']
+        account.account_type = request.POST['type']
+        account.image = request.FILES['userImage']
+        account.save()
 
-    form = UserCreationForm
-    return render(request,
-                "main/register.html",
-                context={"form":form})
+    return render(request, 'main/index.html')
 
 def admin_home(request):
     template = "main/admin/index.html"
@@ -106,6 +117,21 @@ def funcStudentDelete(request,id):
 
     # return HttpResponseRedirect(reverse('index'))
 
+def funcLessonList(request):
+    template = 'main/admin/lesson.html'
+    context = {
+        "lessons": Learn1.objects.all()
+    }
+    return render(request, template, context)
+
+def funcLoadLesson(request, id):
+    template = 'main/admin/viewLesson.html' 
+    context = {
+        "lessons": Learn1.objects.all(),
+        "lesson": Learn1.objects.get(id=id)
+    }
+    return render(request, template, context)
+
 def alessonList(request):
     #replace obj with lesson
     return render(request, 'main/admin/lesson.html', {'lesson': Student.objects.all()})
@@ -123,10 +149,10 @@ def aLogs(request):
     return render(request, 'main/admin/activityLogs.html', {'logs': Student.objects.all()})
 
 def aOpenLesson(request):
-    return render(request, 'main/admin/viewLesson.html', {'logs': Student.objects.all()})
+    return render(request, 'main/admin/viewLesson.html', {'lesson': Student.objects.all()})
 
 def aLessonEditor(request):
-    return render(request, 'main/admin/lessonEditor.html', {'logs': Student.objects.all()})
+    return render(request, 'main/admin/lessonEditor.html', {'lesson': Student.objects.all()})
 
-def profile(request):
-    return render(request, 'main/myprofile.html', {'logs': Student.objects.all()})
+def profile(request, id=1):
+    return render(request, 'main/myprofile.html', {'account': Account.objects.all()})
