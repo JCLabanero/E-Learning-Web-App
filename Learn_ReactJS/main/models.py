@@ -17,7 +17,7 @@ class Account(models.Model):
     password = models.CharField("Password","password",max_length=200,default="password")
     type = models.CharField("Account Type", 'type', max_length=20,choices=account_type,default='Student')
     #idk why hindi sya nasasave sa path na binigay
-    image = models.ImageField(upload_to="main/assets/thumbnails",default='main/assets/thumbnails/user-default.png')
+    image = models.ImageField(upload_to="thumbnails",default='main/assets/thumbnails/user-default.png')
     def __str__(self):
         return self.username
 

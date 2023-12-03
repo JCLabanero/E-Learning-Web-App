@@ -149,10 +149,10 @@ def aLogs(request):
     return render(request, 'main/admin/activityLogs.html', {'logs': Student.objects.all()})
 
 def aOpenLesson(request):
-    return render(request, 'main/admin/viewLesson.html', {'logs': Student.objects.all()})
+    return render(request, 'main/admin/viewLesson.html', {'lesson': Student.objects.all()})
 
 def aLessonEditor(request):
-    return render(request, 'main/admin/lessonEditor.html', {'logs': Student.objects.all()})
+    return render(request, 'main/admin/lessonEditor.html', {'lesson': Student.objects.all()})
 
-def profile(request):
-    return render(request, 'main/myprofile.html', {'logs': Student.objects.all()})
+def profile(request, id=1):
+    return render(request, 'main/myprofile.html', {'account': Account.objects.all()})
