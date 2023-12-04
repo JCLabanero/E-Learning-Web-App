@@ -24,9 +24,9 @@
               <ul class="right">
                 {% if request.session.username %}
                 <li><a href="#">Welcome, {{ request.session.username }}!</a></li>
-            {% else %}
+                {% else %}
                 <li><a href="#">UserImg + Username123</a></li>
-            {% endif %}                     
+                {% endif %}                     
               </ul>
             </div>
           </nav>
@@ -34,20 +34,26 @@
         <ul class="sidenav" id="slide-out"><br>
             <div class="container center-align">
                 <img class="circle" width="150" height="150" src="https://materializecss.com/images/sample-1.jpg" alt="">
+                {% if request.session.username %}
+                <p>{{request.session.username}}</p>
+                {% else %}
                 <p>Username</p>
+                {% endif %} 
             </div>
             <div class="container">
                 <div class="divider"></div>
             </div>
             <div style="height:63%;">
-                <li><a href="{% url 'main:dashboard'%}">Dashboard</a></li>
+                <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
                 <li><a href="{% url 'main:lesson' %}">Lessons</a></li>
-                <li><a href="{% url 'main:assessments' %}">Quizzes & Exams</a></li>
-                <li><a href="{% url 'main:achievements' %}">Achievements</a></li>
-                <li><a href="{% url 'main:students' %}">My Students</a></li>
-                <li><a href="{% url 'main:profile' %}">My Profile</a></li>
-                <li><a href="{% url 'main:reports' %}">Reports</a></li>
-                <li><a href="{% url 'main:logs' %}">Activity Logs</a></li>
+                <li><a href="{% url 'main:assessments'%}">Quizzes & Exams</a></li>
+                <li><a href="{% url 'main:achievements'%}">Achievements</a></li>
+                <li><a href="{% url 'main:profile'%}">My Profile</a></li>
+                {%if request.session.type == 'a'%}
+                <li><a href="{% url 'main:students'%}">My Students</a></li>
+                <li><a href="{% url 'main:reports'%}">Reports</a></li>
+                <li><a href="{% url 'main:logs'%}">Activity Logs</a></li>
+                {%endif%}
             </div>
             <li><a href="{% url 'main:logout' %}" class="red-text">Log-out</a><li>
         </ul>

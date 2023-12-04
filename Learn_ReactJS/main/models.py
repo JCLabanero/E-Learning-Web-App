@@ -8,16 +8,16 @@ from django.contrib.auth.hashers import make_password
 class Account(models.Model):
     #id is auto-generated
     account_type = [
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
+        ('Student', 'Student'),
+        ('Teacher', 'Teacher'),
     ]
     id = models.IntegerField('ID','id',primary_key=True)
     username = models.CharField("Username","username",max_length=200,default="username", unique=True)
     firstname = models.CharField("First Name","firstname",max_length=200,default="firstname")
     lastname = models.CharField("Last Name","lastname",max_length=200,default="lastname")
     email = models.CharField("Email","email",max_length=200,default="email", unique=True)
-    password = models.CharField("Password","password",max_length=200,default="password")
-    type = models.CharField("Account Type", 'type', max_length=20,choices=account_type,default='Student')
+    password = models.CharField("Password","password",max_length=200,default="password", help_text="Be Careful on changing passwords directly from the admin site, make sure to input the plain text password! Do not save if will the password not being in plain text or else it will be set to the current value(encrypted) and not as intended")
+    type = models.CharField("Account Type", 'type', max_length=20,choices=account_type)
     image = models.ImageField(upload_to="thumbnails",default='media/thumbnails/user-default.png')
     
     def save(self, *args, **kwargs):

@@ -41,8 +41,7 @@ def setSession(request, username):
 def dashboard(request):
     # return HttpResponse("Hello, World")
     return render(request=request,
-                  template_name="main/index.html",
-                  context={"Learn1":Learn1.objects.all})
+                  template_name="main/index.html",context={"Learn1":Learn1.objects.all,})
 
 def login(request):
     return render(request, 'main/login.html')
@@ -59,7 +58,7 @@ def login_submit(request):
                 return redirect('main:dashboard')
 
             else:
-                sweetify.toast(request, title='Invalid Account!', icon='error', timer=3000, position='top')
+                sweetify.toast(request, title="Invalid Account!", icon='error', timer=3000, position='top')
                 return redirect('/')
         except Account.DoesNotExist:
             sweetify.toast(request, title='Invalid Account!', icon='error', timer=3000, position='top')
@@ -83,7 +82,7 @@ def register(request, username=None):
         account.firstname = request.POST['firstname']
         account.lastname = request.POST['lastname']
         account.email = request.POST['email']
-        account.account_type = request.POST['type']
+        account.type = request.POST['account_type']
         account.image = request.FILES['userImage']
 
         account.save()
