@@ -85,7 +85,6 @@ def register(request, username=None):
         account.email = request.POST['email']
         account.account_type = request.POST['type']
         account.image = request.FILES['userImage']
-        user_image = request.FILES['userImage']
 
         account.save()
         sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
