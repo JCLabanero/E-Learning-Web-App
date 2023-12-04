@@ -9,4 +9,11 @@
 	<body>
 		{% block body %}{% endblock body %}
 	</body>
+	{% comment %} {% if not request.session.username and request.path != '/' %}
+	<script>
+		window.location.href = "/";
+	</script>
+	{% endif %} {% endcomment %}
 </html>
+{% load sweetify %}
+{% sweetify %}

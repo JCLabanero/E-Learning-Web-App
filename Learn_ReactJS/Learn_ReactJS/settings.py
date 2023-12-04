@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'tinymce',
+    'sweetify',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Learn_ReactJS.urls'
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+LOGIN_URL = '/'  # Adjust this to your actual login URL
 
 TEMPLATES = [
     {

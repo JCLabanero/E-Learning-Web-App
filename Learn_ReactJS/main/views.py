@@ -3,44 +3,80 @@ from django.http import HttpResponse, JsonResponse
 from .models import Learn1, Student, Account, Quiz, Quiz_Question, Assessment, Assessment_Question, Badge
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.urls import reverse
+import sweetify
+from django.contrib.auth.decorators import login_required
+import time
+from functools import wraps
 
 # Create your views here.
 
-def index(request):
+def login_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.session.get('id') and not request.session.get('username') and not request.session.get('password') and not request.session.get('type'):
+            return redirect('/')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
+
+def setSession(request, username):
+    user = Account.objects.get(username=username)
+    request.session['id'] = user.id
+    request.session['username'] = user.username
+    request.session['password'] = user.password
+    request.session['imagePath'] = user.image.url
+    if(user.type == 'Teacher'):
+        request.session['type'] = 'a'
+    elif(user.type == 'Student'):
+        request.session['type'] = 'u'
+
+#add this decorator to pages that requires log-in
+@login_required
+def dashboard(request):
     # return HttpResponse("Hello, World")
     return render(request=request,
                   template_name="main/index.html",
                   context={"Learn1":Learn1.objects.all})
 
 def login(request):
-    return render(request=request,
-                  template_name="main/login.html")
+    return render(request, 'main/login.html')
+    # return render(request=request,template_name="main/login.html")
 
-def register(request):
-    # if request.method == "POST":
-    #     form = UserCreationForm(request.POST)
-    #     if form.is_valid():
-    #         user = form.save()
-    #         username = form.cleaned_data.get('username')
-    #         messages.success(request, f"New account created: {username}")
-    #         # login(request,user)
-    #         return redirect("main:login")
-    #     else:
-    #         for fields in form:
-    #             for error in fields.errors:
-    #                 messages.error(request,f"{fields.label}: {error}")
-    #         return render(
-    #         request,
-    #         "main/register.html",
-    #         context={"form": form}
-    #         )
-    # form = UserCreationForm
-    # return render(request,
-    #             "main/register.html",
-    #             context={"form":form})
+def login_submit(request):
     if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = Account.objects.get(username=username)
+            if check_password(password, user.password):
+                setSession(request, username)
+                return redirect('main:dashboard')
+
+            else:
+                sweetify.toast(request, title='Invalid Account!', icon='error', timer=3000, position='top')
+                return redirect('/')
+        except Account.DoesNotExist:
+            sweetify.toast(request, title='Invalid Account!', icon='error', timer=3000, position='top')
+            return redirect('/')
+    else:
+        return redirect('/')
+    
+def register(request, username=None):
+    # code to check if uniques values exist
+    if request.method == 'POST':
+        username_exists = Account.objects.filter(username=request.POST['username']).exists()
+        email_exists = Account.objects.filter(email=request.POST['email']).exists()
+
+        if username_exists or email_exists:
+            sweetify.toast(request, title='Duplicate Username or Email', icon='error', timer=3000, position='top')
+            return redirect('/')
+        
         account = Account()
         account.username = request.POST['username']
         account.password = request.POST['password']
@@ -49,9 +85,14 @@ def register(request):
         account.email = request.POST['email']
         account.account_type = request.POST['type']
         account.image = request.FILES['userImage']
-        account.save()
+        user_image = request.FILES['userImage']
 
-    return render(request, 'main/index.html')
+        account.save()
+        sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
+        # time.sleep(1)
+        setSession(request, account.username)
+
+        return redirect('main:dashboard')
 
 def admin_home(request):
     template = "main/admin/index.html"
@@ -64,6 +105,7 @@ def admin_home(request):
 
     return render(request,template,context)
 
+@login_required
 def astudentlist(request):
     return render(request, 'main/admin/students.html', {'students': Student.objects.all()})
 

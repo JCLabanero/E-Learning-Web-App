@@ -3,6 +3,7 @@
 {%load static%}
 {%block head%}
 <link rel="stylesheet" href="{% static 'main/css/login.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
 {%endblock head%}
 {% block title %}<title>Learn ReactJS | Log-In</title>{% endblock title%}
 {% block content %}
@@ -20,23 +21,30 @@
 			<option value="Student">Student</option>
 			<option value="Teacher">Teacher</option>
 		</select>
-		<input type="file" id="userImage" name="userImage" accept="image/*">
+		<input type="file" id="userImage" name="userImage" accept="image/*" required>
 		<button type="submit">create</button>
 		<p class="message">Already registered? <a href="#">Sign In</a></p>
 	  </form>
-	  <form class="login-form" id="login-form">
-		<input type="text" placeholder="username"/>
-		<input type="password" placeholder="password"/>
+	  <form class="login-form" id="login-form" action="{% url 'main:login_submit' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input type="text" name="username" placeholder="username" required/>
+		<input type="password" name="password" placeholder="password" required/>
 		<button type="submit">login</button>
 		<p class="message">Not registered? <a href="#">Create an account</a></p>
 	  </form>
-	</div>
+	</div>	
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
 	$('.message a').click(function(){
 	$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 	});
+	{% comment %} $('#login-form').on('submit', function (event) {
+		event.preventDefault();
+	}) {% endcomment %}
   </script>
 </main>
 {% endblock %}
+
+{% load sweetify %}
+{% sweetify %}

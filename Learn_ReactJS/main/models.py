@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.hashers import make_password
 
 # Model django documentation.
 # https://docs.djangoproject.com/en/4.2/ref/models/fields/
@@ -10,14 +11,20 @@ class Account(models.Model):
         ('student', 'Student'),
         ('teacher', 'Teacher'),
     ]
-    username = models.CharField("Username","username",max_length=200,default="username")
+    id = models.IntegerField('ID','id',primary_key=True)
+    username = models.CharField("Username","username",max_length=200,default="username", unique=True)
     firstname = models.CharField("First Name","firstname",max_length=200,default="firstname")
     lastname = models.CharField("Last Name","lastname",max_length=200,default="lastname")
-    email = models.CharField("Email","email",max_length=200,default="email")
+    email = models.CharField("Email","email",max_length=200,default="email", unique=True)
     password = models.CharField("Password","password",max_length=200,default="password")
     type = models.CharField("Account Type", 'type', max_length=20,choices=account_type,default='Student')
-    #idk why hindi sya nasasave sa path na binigay
-    image = models.ImageField(upload_to="thumbnails",default='main/assets/thumbnails/user-default.png')
+    image = models.ImageField(upload_to="thumbnails",default='media/thumbnails/user-default.png')
+    
+    def save(self, *args, **kwargs):
+        # Hash the password before saving
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.username
 
