@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tiny.cloud/1/xervcooe8f3ms8edh906ysdceywtls38l4yywnigy1zx1jk1/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <title>Document</title>
 
@@ -28,8 +29,8 @@
             padding: 20px;
         }
         .container.col.s12.card > ul > li {
-            padding-left:30px;
-            list-style-type: circle;
+            list-style-type: disc;
+            margin-left:3%;
         }
     </style>
 </head>
@@ -55,11 +56,13 @@
                 </li>
             </ul>
         </div>
-        <div class="container col s12 card">            
+        <div class="container col s12 card" id="contentArea">            
             {% comment %} <h3>Title Of Lesson</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras scelerisque, orci sed ultricies convallis, felis odio condimentum orci, ut fringilla orci urna in magna. Quisque eget nunc ante. Ut aliquam a eros tincidunt blandit. Duis imperdiet turpis nec neque tincidunt, nec porttitor metus rhoncus. Cras at quam et tortor pulvinar pharetra vitae ut mi. Mauris lacinia suscipit pellentesque. Sed turpis sapien, porta sit amet neque id, feugiat vehicula nunc. Sed a congue risus, ac eleifend turpis. Fusce nibh magna, cursus at viverra quis, commodo in purus. Cras sed ligula eu nunc bibendum tincidunt. Etiam consectetur metus quis tortor dapibus, eu tincidunt urna sodales. Integer eu varius massa, eu condimentum erat. Nulla et arcu a elit interdum gravida.</p>
             <h4>Sub topics</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras scelerisque, orci sed ultricies convallis, felis odio condimentum orci, ut fringilla orci urna in magna. Quisque eget nunc ante. Ut aliquam a eros tincidunt blandit. Duis imperdiet turpis nec neque tincidunt, nec porttitor metus rhoncus. Cras at quam et tortor pulvinar pharetra vitae ut mi. Mauris lacinia suscipit pellentesque. Sed turpis sapien, porta sit amet neque id, feugiat vehicula nunc. Sed a congue risus, ac eleifend turpis. Fusce nibh magna, cursus at viverra quis, commodo in purus. Cras sed ligula eu nunc bibendum tincidunt. Etiam consectetur metus quis tortor dapibus, eu tincidunt urna sodales. Integer eu varius massa, eu condimentum erat. Nulla et arcu a elit interdum gravida.</p> {% endcomment %}
+            {% comment %} <textarea>
+            </textarea> {% endcomment %}
             {{lesson.content|safe}}
         </div>
     </main>

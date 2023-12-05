@@ -31,11 +31,13 @@
                 </div>
                 <div class="collapsible-body">
                     <ul>
+                        {%for lesson in lessons%}
                         <li>
                             <div class="valign-wrapper">
-                                <a href="">Lesson 1</a>
+                                <a href="{% url 'main:edit-lesson' lesson.id%}">{{lesson.title}}</a>
                             </div>
-                        </li>
+                        </li><br>
+                        {%endfor%}
                     </ul>
                 </div>
             </li>
@@ -43,10 +45,10 @@
     </div>
     <div class="container">   
         <textarea>
-            Welcome to Lesson Editor
+            {{lesson.content}}
         </textarea> <br>
             <div class="row center">
-                <button class="btn-large center-align">Add</button>
+                <button class="btn-large center-align">Save</button>
                 <button class="btn-large center-align red">Cancel</button>
             </div> 
     </div>

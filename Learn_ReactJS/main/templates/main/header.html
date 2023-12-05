@@ -5,6 +5,7 @@
   {% load static %} 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
   <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}">
   {% comment %} <link href="{% static "tinymce/my-styles.css" %}" rel="stylesheet" /> {% endcomment %}
   <style>
@@ -12,9 +13,33 @@
         display: inline-block;
         height: 100%;
     }
+    #loader{
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        padding:50vh 50vw;
+        flex-direction: column;
+        justify-content:center;
+        z-index: 100;
+        background-color: rgba(240, 248, 255, 0.671);
+        backdrop-filter: blur(5px);
+    }
   </style>
   {% endblock head %}
   {% block body %}
+  <div id="loader">
+    <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+  </div>
       <header>
         <div class="navbar-fixed">
             <nav>
@@ -42,26 +67,48 @@
             </div>
             <div class="container">
                 <div class="divider"></div>
-            </div>
+            </div><br>
             <div style="height:63%;">
-                <li><a href="{% url 'main:dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'main:lesson' %}">Lessons</a></li>
-                <li><a href="{% url 'main:assessments'%}">Quizzes & Exams</a></li>
-                <li><a href="{% url 'main:achievements'%}">Achievements</a></li>
-                <li><a href="{% url 'main:profile'%}">My Profile</a></li>
+                <li><a href="{% url 'main:dashboard' %}"><i class="material-icons">home</i>Dashboard</a></li>
+                <li><a href="{% url 'main:lesson' %}"><i class="material-icons">book</i>Lessons</a></li>
+                <li><a href="{% url 'main:assessments'%}"><i class="material-icons">assessment</i>Quizzes & Exams</a></li>
+                <li><a href="{% url 'main:achievements'%}"><i class="material-icons">card_membership</i>Achievements</a></li>
+                <li><a href="{% url 'main:profile'%}"><i class="material-icons">person</i>My Profile</a></li>
                 {%if request.session.type == 'a'%}
-                <li><a href="{% url 'main:students'%}">My Students</a></li>
-                <li><a href="{% url 'main:reports'%}">Reports</a></li>
-                <li><a href="{% url 'main:logs'%}">Activity Logs</a></li>
+                <li><a href="{% url 'main:students'%}"><i class="material-icons">class</i>My Students</a></li>
+                <li><a href="{% url 'main:reports'%}"><i class="material-icons">line_style</i>Reports</a></li>
+                <li><a href="{% url 'main:logs'%}"><i class="material-icons">track_changes</i>Activity Logs</a></li>
                 {%endif%}
             </div>
-            <li><a href="{% url 'main:logout' %}" class="red-text">Log-out</a><li>
+            <li id="logout"><a href="#" class="red-text"><i class="material-icons">logout</i>Log-out</a><li>
         </ul>
         <br>
         <script>
             $(document).ready(function(){
                 $('.sidenav').sidenav();
           });
+          $('#logout').on('click', function(){
+            Swal.fire({
+                title: 'Do you want to continue',
+                icon: 'question',
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#4fc3f7',
+                showCancelButton: true,
+                cancelButtonColor: 'red',
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    location.href="{% url 'main:logout'%}"
+                }
+            })
+          })
+          $(document).ready(function(){
+            setTimeout(()=>{
+                $('#loader').hide()
+            },400)
+          })
+          $(document).addEventListener('beforeunload', function(){
+            $('#loader').show()
+          })
           </script>
       </header>
       <main class="container">

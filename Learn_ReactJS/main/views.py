@@ -191,8 +191,10 @@ def aLogs(request):
 def aOpenLesson(request):
     return render(request, 'main/admin/viewLesson.html', {'lesson': Student.objects.all()})
 
-def aLessonEditor(request):
-    return render(request, 'main/admin/lessonEditor.html', {'lesson': Student.objects.all()})
+def aLessonEditor(request, id):
+    return render(request, 'main/admin/lessonEditor.html', {
+        "lessons": Learn1.objects.all(),
+        'lesson': Learn1.objects.get(id=id)})
 
 def profile(request, id=1):
     return render(request, 'main/myprofile.html', {'account': Account.objects.all()})

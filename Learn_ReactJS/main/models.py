@@ -35,6 +35,7 @@ class Student(models.Model):
     email = models.CharField("Email","email",max_length=200,default="email")
 
 class Learn1(models.Model):
+    id = models.IntegerField('ID','id',primary_key=True)
     title = models.CharField(max_length=200)
     content = models.TextField(default="The content of the lesson should go here.")
     published = models.DateTimeField("date published", default=datetime.now())
