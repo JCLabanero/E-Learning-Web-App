@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
 from .models import Learn1, Student, Account, Quiz, Quiz_Question, Assessment, Assessment_Question, Badge
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.urls import reverse
-import sweetify
 from django.contrib.auth.decorators import login_required
-import time
 from functools import wraps
+import sweetify
+import time
 
 # Create your views here.
 
@@ -173,8 +173,10 @@ def funcLoadLesson(request, id):
     return render(request, template, context)
 
 def alessonList(request):
-    #replace obj with lesson
-    return render(request, 'main/admin/lesson.html', {'lesson': Student.objects.all()})
+    return render(request, 'main/admin/lesson.html', {
+        # create obj for units
+        'lesson': Learn1.objects.all().order_by('lessonNo')
+        })
 
 def aAssessments(request):
     return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
@@ -195,6 +197,33 @@ def aLessonEditor(request, id):
     return render(request, 'main/admin/lessonEditor.html', {
         "lessons": Learn1.objects.all(),
         'lesson': Learn1.objects.get(id=id)})
+
+def updateLesson(request, id):
+    try:
+        if request.method == 'POST':
+            lesson = Learn1.objects.get(id=id)
+            lesson.title = request.POST['title']
+            # lesson.unitNo = request.POST['unitNo']
+            # lesson.lessonNo = request.POST['lessonNo']
+            lesson.content = request.POST['updatedContent']
+            lesson.save()
+            # sweetify.question(request, title="Are you sure you want to delete this lesson?", icon="question")
+            sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
+    except:
+        sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
+        pass
+    return redirect('main:lesson')
+
+def deleteLesson(request, id):
+    try:
+        if request.method == 'POST':
+            lesson = Learn1.objects.get(id=id)
+            lesson.delete()
+            sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
+    except:
+        sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
+        pass
+    return redirect('main:lesson')
 
 def profile(request, id=1):
     return render(request, 'main/myprofile.html', {'account': Account.objects.all()})

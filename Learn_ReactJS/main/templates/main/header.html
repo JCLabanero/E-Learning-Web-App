@@ -24,6 +24,9 @@
         background-color: rgba(240, 248, 255, 0.671);
         backdrop-filter: blur(5px);
     }
+    .swal2-container .select-wrapper{
+        display: none !important;
+    }
   </style>
   {% endblock head %}
   {% block body %}
@@ -142,11 +145,11 @@
       <!-- Compiled and minified JavaScript -->
       <script src="{% static "main/js/materialize.js" %}"></script>
         <script>
-            M.AutoInit();
+            {% comment %} M.AutoInit();
             document.addEventListener("DOMContentLoaded", function () {
                 var elems = document.querySelectorAll(".collapsible");
                 var instances = M.Collapsible.init(elems, options);
-            });
+            }); {% endcomment %}
         </script>
         <!--prettier-ignore -->
         {% if messages %}

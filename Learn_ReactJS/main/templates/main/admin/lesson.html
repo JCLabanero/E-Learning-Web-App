@@ -9,8 +9,6 @@
 
 
     {% load static %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
     <style>
         .btn-small{
             margin-right: 10px;
@@ -57,7 +55,7 @@
     </main>
     <script>
         M.AutoInit();
-        $(document).ready(function() {
+        document.ready(function() {
             $('.collapsible-header .actionBtn').click(function(event) {
             event.stopPropagation();
             });

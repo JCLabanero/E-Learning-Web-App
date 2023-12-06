@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('a/lesson/id=<int:id>/',views.funcLoadLesson, name="viewLesson"),
     path('a/lesson/lessonEditor/<int:id>',views.aLessonEditor, name="edit-lesson"),
+    path('a/lesson/lessonEditor/<int:id>/update',views.updateLesson, name="update-lesson"),
 
     path('a/profile/',views.profile, name="profile"),
 
