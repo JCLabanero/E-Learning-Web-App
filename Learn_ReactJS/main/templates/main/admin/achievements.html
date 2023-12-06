@@ -44,56 +44,10 @@
                                     <input type="hidden" id="description" value="Description of badge 1">
                                     <input type="hidden" id="requirement" value="Requirement for badge 1">
                                     <div class="row">
+                                        {%if request.session.type == 'a'%}
                                         <Button class="btn-small green">Edit</Button>
                                         <Button class="btn-small red">Delete</Button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="container center col s2 modal-trigger" href="#badgeModal">
-                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
-                                    <p><b>Sample Badge Title 2</b></p>
-                                    <input type="hidden" id="description" value="Description of badge 2">
-                                    <input type="hidden" id="requirement" value="Requirement for badge 2">
-                                    <div class="row">
-                                        <Button class="btn-small green">Edit</Button>
-                                        <Button class="btn-small red">Delete</Button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="container center col s2 modal-trigger" href="#badgeModal">
-                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
-                                    <p><b>Sample Badge Title 3</b></p>
-                                    <input type="hidden" id="description" value="Description of badge 3">
-                                    <input type="hidden" id="requirement" value="Requirement for badge 3">
-                                    <div class="row">
-                                        <Button class="btn-small green">Edit</Button>
-                                        <Button class="btn-small red">Delete</Button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="container center col s2 modal-trigger" href="#badgeModal">
-                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
-                                    <p><b>Sample Badge Title 4</b></p>
-                                    <input type="hidden" id="description" value="Description of badge 4">
-                                    <input type="hidden" id="requirement" value="Requirement for badge 4">
-                                    <div class="row">
-                                        <Button class="btn-small green">Edit</Button>
-                                        <Button class="btn-small red">Delete</Button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="container center col s2 modal-trigger" href="#badgeModal">
-                                    <img src="{% static 'main/assets/sample badge.jpg' %}" alt="" height="170" width=170>
-                                    <p><b>Sample Badge Title 5</b></p>
-                                    <input type="hidden" id="description" value="Description of badge 5">
-                                    <input type="hidden" id="requirement" value="Requirement for badge 5">
-                                    <div class="row">
-                                        <Button class="btn-small green">Edit</Button>
-                                        <Button class="btn-small red">Delete</Button>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </li>
@@ -113,8 +67,10 @@
                                     <input type="hidden" id="description" value="Description of certificate 1">
                                     <input type="hidden" id="requirement" value="Requirement for certificate 1">
                                     <div class="row">
+                                        {%if request.session.type == 'a'%}
                                         <Button class="btn-small green">Edit</Button>
                                         <Button class="btn-small red">Delete</Button>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </li>

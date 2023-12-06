@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.hashers import make_password
 
 # Model django documentation.
 # https://docs.djangoproject.com/en/4.2/ref/models/fields/
@@ -7,17 +8,23 @@ from datetime import datetime
 class Account(models.Model):
     #id is auto-generated
     account_type = [
-        ('student', 'Student'),
-        ('teacher', 'Teacher'),
+        ('Student', 'Student'),
+        ('Teacher', 'Teacher'),
     ]
-    username = models.CharField("Username","username",max_length=200,default="username")
+    id = models.IntegerField('ID','id',primary_key=True)
+    username = models.CharField("Username","username",max_length=200,default="username", unique=True)
     firstname = models.CharField("First Name","firstname",max_length=200,default="firstname")
     lastname = models.CharField("Last Name","lastname",max_length=200,default="lastname")
-    email = models.CharField("Email","email",max_length=200,default="email")
-    password = models.CharField("Password","password",max_length=200,default="password")
-    type = models.CharField("Account Type", 'type', max_length=20,choices=account_type,default='Student')
-    #idk why hindi sya nasasave sa path na binigay
-    image = models.ImageField(upload_to="thumbnails",default='main/assets/thumbnails/user-default.png')
+    email = models.CharField("Email","email",max_length=200,default="email", unique=True)
+    password = models.CharField("Password","password",max_length=200,default="password", help_text="Be Careful on changing passwords directly from the admin site, make sure to input the plain text password! Do not save if will the password not being in plain text or else it will be set to the current value(encrypted) and not as intended")
+    type = models.CharField("Account Type", 'type', max_length=20,choices=account_type)
+    image = models.ImageField(upload_to="thumbnails",default='media/thumbnails/user-default.png')
+    
+    def save(self, *args, **kwargs):
+        # Hash the password before saving
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.username
 
@@ -28,12 +35,15 @@ class Student(models.Model):
     email = models.CharField("Email","email",max_length=200,default="email")
 
 class Learn1(models.Model):
+    id = models.IntegerField('ID','id',primary_key=True)
+    unitNo = models.IntegerField('Unit No','unitNo',default=0)
+    lessonNo = models.IntegerField('Lesson No.','lessonNo',default=0)
     title = models.CharField(max_length=200)
     content = models.TextField(default="The content of the lesson should go here.")
     published = models.DateTimeField("date published", default=datetime.now())
 
     def __str__(self):
-        return self.title
+        return f"Lesson: {self.unitNo}.{self.lessonNo}: {self.title}"
 
 class Unit(models.Model):
     unit_no = models.IntegerField("Unit No.","unit_no",default=1)

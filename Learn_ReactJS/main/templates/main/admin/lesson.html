@@ -9,8 +9,6 @@
 
 
     {% load static %}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}" />
     <style>
         .btn-small{
             margin-right: 10px;
@@ -24,14 +22,17 @@
     </style>
 </head>
 <body>
-    <main class="container">
+    <main>
         <div class="container">
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header row valign-wrapper">
                         <p class="col s12">Unit 1</p>
+                        {%if request.session.type == 'a'%}
+                        <button class="btn-small col s2 waves-effect waves-light actionBtn actionBtn" href=''>Add</button>
                         <button class="btn-small col s2 waves-effect waves-light actionBtn actionBtn">Edit</button>
                         <button class="btn-small red col s2 waves-effect waves-light actionBtn actionBtn">remove</button>
+                        {%endif%}
                     </div>
                     <div class="collapsible-body">
                         <ul>
@@ -39,8 +40,10 @@
                             <li>
                                 <div class="valign-wrapper row">
                                     <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
-                                    <button class="btn-small col s1 waves-effect waves-light" onclick="location.href='{% url 'main:edit-lesson'%}'">Edit</button>
-                                    <button class="btn-small red col s2 waves-effect waves-light">remove</button>
+                                    {%if request.session.type == 'a'%}
+                                    <button class="btn-small col s1 waves-effect waves-light" onclick="location.href='{% url 'main:edit-lesson' lesson.id%}'">Edit</button>
+                                    <button class="btn-small red col s1 waves-effect waves-light">remove</button>
+                                    {%endif%}
                                 </div>
                             </li>
                             {% endfor %}
@@ -52,7 +55,7 @@
     </main>
     <script>
         M.AutoInit();
-        $(document).ready(function() {
+        document.ready(function() {
             $('.collapsible-header .actionBtn').click(function(event) {
             event.stopPropagation();
             });

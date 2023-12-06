@@ -9,6 +9,8 @@ from tinymce.widgets import TinyMCE
 class AdminTinyMCETextEditor(admin.ModelAdmin):
 
     fieldsets=[
+        ("Unit No.",{"fields":['unitNo']}),
+        ("Lesson No.",{"fields":['lessonNo']}),
         ("Title/date",{"fields":["title","published"]}),
         ("Content",{"fields":["content"]})
     ]

@@ -1,57 +1,96 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
 from .models import Learn1, Student, Account, Quiz, Quiz_Question, Assessment, Assessment_Question, Badge
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from functools import wraps
+import sweetify
+import time
 
 # Create your views here.
 
-def index(request):
+def login_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.session.get('id') and not request.session.get('username') and not request.session.get('password') and not request.session.get('type'):
+            return redirect('/')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
+
+def setSession(request, username):
+    user = Account.objects.get(username=username)
+    request.session['id'] = user.id
+    request.session['username'] = user.username
+    request.session['password'] = user.password
+    request.session['imagePath'] = user.image.url
+    if(user.type == 'Teacher'):
+        request.session['type'] = 'a'
+    elif(user.type == 'Student'):
+        request.session['type'] = 'u'
+
+#add this decorator to pages that requires log-in
+@login_required
+def dashboard(request):
     # return HttpResponse("Hello, World")
     return render(request=request,
-                  template_name="main/index.html",
-                  context={"Learn1":Learn1.objects.all})
+                  template_name="main/index.html",context={"Learn1":Learn1.objects.all,})
 
 def login(request):
-    return render(request=request,
-                  template_name="main/login.html")
+    return render(request, 'main/login.html')
+    # return render(request=request,template_name="main/login.html")
 
-def register(request):
-    # if request.method == "POST":
-    #     form = UserCreationForm(request.POST)
-    #     if form.is_valid():
-    #         user = form.save()
-    #         username = form.cleaned_data.get('username')
-    #         messages.success(request, f"New account created: {username}")
-    #         # login(request,user)
-    #         return redirect("main:login")
-    #     else:
-    #         for fields in form:
-    #             for error in fields.errors:
-    #                 messages.error(request,f"{fields.label}: {error}")
-    #         return render(
-    #         request,
-    #         "main/register.html",
-    #         context={"form": form}
-    #         )
-    # form = UserCreationForm
-    # return render(request,
-    #             "main/register.html",
-    #             context={"form":form})
+def login_submit(request):
     if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = Account.objects.get(username=username)
+            if check_password(password, user.password):
+                setSession(request, username)
+                return redirect('main:dashboard')
+
+            else:
+                sweetify.toast(request, title="Invalid Account!", icon='error', timer=3000, position='top')
+                return redirect('/')
+        except Account.DoesNotExist:
+            sweetify.toast(request, title='Invalid Account!', icon='error', timer=3000, position='top')
+            return redirect('/')
+    else:
+        return redirect('/')
+    
+def register(request, username=None):
+    # code to check if uniques values exist
+    if request.method == 'POST':
+        username_exists = Account.objects.filter(username=request.POST['username']).exists()
+        email_exists = Account.objects.filter(email=request.POST['email']).exists()
+
+        if username_exists or email_exists:
+            sweetify.toast(request, title='Duplicate Username or Email', icon='error', timer=3000, position='top')
+            return redirect('/')
+        
         account = Account()
         account.username = request.POST['username']
         account.password = request.POST['password']
         account.firstname = request.POST['firstname']
         account.lastname = request.POST['lastname']
         account.email = request.POST['email']
-        account.account_type = request.POST['type']
+        account.type = request.POST['account_type']
         account.image = request.FILES['userImage']
-        account.save()
 
-    return render(request, 'main/index.html')
+        account.save()
+        sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
+        # time.sleep(1)
+        setSession(request, account.username)
+
+        return redirect('main:dashboard')
 
 def admin_home(request):
     template = "main/admin/index.html"
@@ -64,6 +103,7 @@ def admin_home(request):
 
     return render(request,template,context)
 
+@login_required
 def astudentlist(request):
     return render(request, 'main/admin/students.html', {'students': Student.objects.all()})
 
@@ -133,8 +173,10 @@ def funcLoadLesson(request, id):
     return render(request, template, context)
 
 def alessonList(request):
-    #replace obj with lesson
-    return render(request, 'main/admin/lesson.html', {'lesson': Student.objects.all()})
+    return render(request, 'main/admin/lesson.html', {
+        # create obj for units
+        'lesson': Learn1.objects.all().order_by('lessonNo')
+        })
 
 def aAssessments(request):
     return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
@@ -151,8 +193,37 @@ def aLogs(request):
 def aOpenLesson(request):
     return render(request, 'main/admin/viewLesson.html', {'lesson': Student.objects.all()})
 
-def aLessonEditor(request):
-    return render(request, 'main/admin/lessonEditor.html', {'lesson': Student.objects.all()})
+def aLessonEditor(request, id):
+    return render(request, 'main/admin/lessonEditor.html', {
+        "lessons": Learn1.objects.all(),
+        'lesson': Learn1.objects.get(id=id)})
+
+def updateLesson(request, id):
+    try:
+        if request.method == 'POST':
+            lesson = Learn1.objects.get(id=id)
+            lesson.title = request.POST['title']
+            # lesson.unitNo = request.POST['unitNo']
+            # lesson.lessonNo = request.POST['lessonNo']
+            lesson.content = request.POST['updatedContent']
+            lesson.save()
+            # sweetify.question(request, title="Are you sure you want to delete this lesson?", icon="question")
+            sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
+    except:
+        sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
+        pass
+    return redirect('main:lesson')
+
+def deleteLesson(request, id):
+    try:
+        if request.method == 'POST':
+            lesson = Learn1.objects.get(id=id)
+            lesson.delete()
+            sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
+    except:
+        sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
+        pass
+    return redirect('main:lesson')
 
 def profile(request, id=1):
     return render(request, 'main/myprofile.html', {'account': Account.objects.all()})
