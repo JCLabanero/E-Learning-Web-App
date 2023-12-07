@@ -29,6 +29,9 @@
     .swal2-container .select-wrapper{
         display: none !important;
     }
+    .sidenavProfile{
+        border:3px solid #4fc3f7;
+    }
   </style>
   {% endblock head %}
   {% block body %}
@@ -63,7 +66,7 @@
         </div>
         <ul class="sidenav" id="slide-out"><br>
             <div class="container center-align">
-                <img class="circle" width="150" height="150" src="{{request.session.imagePath}}" alt="">
+                <img class="circle sidenavProfile" width="150" height="150" src="{{request.session.imagePath}}" alt="">
                 {% if request.session.username %}
                 <p>{{request.session.username}}</p>
                 {% else %}
