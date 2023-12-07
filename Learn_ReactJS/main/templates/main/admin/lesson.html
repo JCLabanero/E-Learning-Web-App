@@ -24,43 +24,68 @@
 <body>
     <main>
         <div class="container">
+            <div class="row">
+                <button class="btn-small col s2 waves-effect waves-light right" id="newUnit">Add New Unit and Lesson</button>
+            </div>
+            {%for unit in units%}
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header row valign-wrapper">
-                        <p class="col s12">Unit 1</p>
+                        <p class="col s12">Unit {{unit}}</p>
                         {%if request.session.type == 'a'%}
-                        <button class="btn-small col s2 waves-effect waves-light actionBtn actionBtn" href=''>Add</button>
-                        <button class="btn-small col s2 waves-effect waves-light actionBtn actionBtn">Edit</button>
-                        <button class="btn-small red col s2 waves-effect waves-light actionBtn actionBtn">remove</button>
+                        <button class="btn-small col s2 waves-effect waves-light actionBtn" onclick="location.href='{% url 'main:create-lesson' unit %}'">Add New Lesson</button>
+                        <button class="btn-small col s2 waves-effect waves-light actionBtn">Edit</button>
+                        <button class="btn-small red col s2 waves-effect waves-light actionBtn" target-data={{lesson.id}}>remove</button>
                         {%endif%}
                     </div>
                     <div class="collapsible-body">
                         <ul>
                             {% for lesson in lessons %}
+                            {%if lesson.unitNo == unit%}
                             <li>
                                 <div class="valign-wrapper row">
                                     <a href="{% url 'main:viewLesson' lesson.id%}" class="col s12">{{lesson.title}}</a>
                                     {%if request.session.type == 'a'%}
                                     <button class="btn-small col s1 waves-effect waves-light" onclick="location.href='{% url 'main:edit-lesson' lesson.id%}'">Edit</button>
-                                    <button class="btn-small red col s1 waves-effect waves-light">remove</button>
+                                    <button class="btn-small red col s1 waves-effect waves-light removeLesson" target="{{lesson.id}}">remove</button>
                                     {%endif%}
                                 </div>
                             </li>
+                            {%endif%}
                             {% endfor %}
                         </ul>
                     </div>
                 </li>
             </ul>
+            {%endfor%}
         </div>
     </main>
     <script>
-        M.AutoInit();
-        document.ready(function() {
+        M.AutoInit()
+        $(document).ready(function() {
             $('.collapsible-header .actionBtn').click(function(event) {
             event.stopPropagation();
             });
-            $('.collapsible').collapsible();
         });
+        $('.removeLesson').on('click', function () {
+            var lessonID = $(this).attr('target');
+            Swal.fire({
+                title: 'Are you sure you want to delete this?',
+                icon: 'question',
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#4fc3f7',
+                showCancelButton: true,
+                cancelButtonColor: 'red',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var deleteUrl = "{% url 'main:delete-lesson' 0 %}".replace('0', lessonID);
+                    location.href = deleteUrl;
+                }
+            });
+        });
+        $('#newUnit').on("click", function(){
+            location.href="{% url 'main:create-lesson' 0 %}".replace('0', {{units|last}}+1)
+        })
     </script>
 </body>
 </html>

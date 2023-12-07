@@ -6,7 +6,9 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+  <link rel="stylesheet" href="{% static 'main/js/materialize.js' %}">
   <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}">
+
   {% comment %} <link href="{% static "tinymce/my-styles.css" %}" rel="stylesheet" /> {% endcomment %}
   <style>
     .brand-logo{
@@ -61,7 +63,7 @@
         </div>
         <ul class="sidenav" id="slide-out"><br>
             <div class="container center-align">
-                <img class="circle" width="150" height="150" src="https://materializecss.com/images/sample-1.jpg" alt="">
+                <img class="circle" width="150" height="150" src="{{request.session.imagePath}}" alt="">
                 {% if request.session.username %}
                 <p>{{request.session.username}}</p>
                 {% else %}
@@ -76,7 +78,7 @@
                 <li><a href="{% url 'main:lesson' %}"><i class="material-icons">book</i>Lessons</a></li>
                 <li><a href="{% url 'main:assessments'%}"><i class="material-icons">assessment</i>Quizzes & Exams</a></li>
                 <li><a href="{% url 'main:achievements'%}"><i class="material-icons">card_membership</i>Achievements</a></li>
-                <li><a href="{% url 'main:profile'%}"><i class="material-icons">person</i>My Profile</a></li>
+                <li><a href="{% url 'main:profile' request.session.id%}"><i class="material-icons">person</i>My Profile</a></li>
                 {%if request.session.type == 'a'%}
                 <li><a href="{% url 'main:students'%}"><i class="material-icons">class</i>My Students</a></li>
                 <li><a href="{% url 'main:reports'%}"><i class="material-icons">line_style</i>Reports</a></li>
@@ -88,8 +90,10 @@
         <br>
         <script>
             $(document).ready(function(){
-                $('.sidenav').sidenav();
-          });
+                setTimeout(()=>{
+                    $('#loader').hide()
+                },400)
+            });
           $('#logout').on('click', function(){
             Swal.fire({
                 title: 'Do you want to continue',
@@ -104,12 +108,7 @@
                 }
             })
           })
-          $(document).ready(function(){
-            setTimeout(()=>{
-                $('#loader').hide()
-            },400)
-          })
-          $(document).addEventListener('beforeunload', function(){
+          document.addEventListener('beforeunload', function(){
             $('#loader').show()
           })
           </script>
@@ -145,6 +144,7 @@
       <!-- Compiled and minified JavaScript -->
       <script src="{% static "main/js/materialize.js" %}"></script>
         <script>
+            M.AutoInit()
             {% comment %} M.AutoInit();
             document.addEventListener("DOMContentLoaded", function () {
                 var elems = document.querySelectorAll(".collapsible");

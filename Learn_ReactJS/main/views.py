@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpRequest
+from django.db import *
 from .models import Learn1, Student, Account, Quiz, Quiz_Question, Assessment, Assessment_Question, Badge
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
@@ -12,6 +13,10 @@ import sweetify
 import time
 
 # Create your views here.
+def units():
+    lessons = Learn1.objects.all()
+    units = sorted(set(lesson.unitNo for lesson in lessons))
+    return units
 
 def login_required(view_func):
     @wraps(view_func)
@@ -25,11 +30,12 @@ def logout(request):
     request.session.clear()
     return redirect('/')
 
-def setSession(request, username):
-    user = Account.objects.get(username=username)
+def setSession(request, id, password):
+    request.session.clear()
+    user = Account.objects.get(id=id)
     request.session['id'] = user.id
     request.session['username'] = user.username
-    request.session['password'] = user.password
+    request.session['password'] = password
     request.session['imagePath'] = user.image.url
     if(user.type == 'Teacher'):
         request.session['type'] = 'a'
@@ -54,7 +60,7 @@ def login_submit(request):
         try:
             user = Account.objects.get(username=username)
             if check_password(password, user.password):
-                setSession(request, username)
+                setSession(request, user.id, password)
                 return redirect('main:dashboard')
 
             else:
@@ -66,32 +72,36 @@ def login_submit(request):
     else:
         return redirect('/')
     
-def register(request, username=None):
-    # code to check if uniques values exist
-    if request.method == 'POST':
-        username_exists = Account.objects.filter(username=request.POST['username']).exists()
-        email_exists = Account.objects.filter(email=request.POST['email']).exists()
+def register(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            if Account.objects.filter(username=username).exists():
+                sweetify.toast(request, title='Duplicate Username or Email', icon='error', timer=3000, position='top')
+                return render(request, 'registration.html', {'error': 'Username already exists'})
 
-        if username_exists or email_exists:
-            sweetify.toast(request, title='Duplicate Username or Email', icon='error', timer=3000, position='top')
-            return redirect('/')
-        
-        account = Account()
-        account.username = request.POST['username']
-        account.password = request.POST['password']
-        account.firstname = request.POST['firstname']
-        account.lastname = request.POST['lastname']
-        account.email = request.POST['email']
-        account.type = request.POST['account_type']
-        account.image = request.FILES['userImage']
+            if Account.objects.filter(email=email).exists():
+                sweetify.toast(request, title='Duplicate Username or Email', icon='error', timer=3000, position='top')
+                return render(request, 'registration.html', {'error': 'Email already exists'})
+            else:
+                account = Account()
+                account.username = request.POST['username']
+                account.password = request.POST['password']
+                account.firstname = request.POST['firstname']
+                account.lastname = request.POST['lastname']
+                account.email = request.POST['email']
+                account.type = request.POST['account_type']
+                account.image = request.FILES['userImage']
+                account.save()
+                sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
+                # Authenticate the user after successfully creating the account
+                return redirect('main:dashboard')
+    except Exception as e:
+        # Handle exceptions (e.g., print or log the error)
+        print(f"An error occurred: {str(e)}")
 
-        account.save()
-        sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
-        # time.sleep(1)
-        setSession(request, account.username)
-
-        return redirect('main:dashboard')
-
+    return redirect('/')
 def admin_home(request):
     template = "main/admin/index.html"
     students = Student.objects.all()
@@ -158,11 +168,12 @@ def funcStudentDelete(request,id):
     # return HttpResponseRedirect(reverse('index'))
 
 def funcLessonList(request):
-    template = 'main/admin/lesson.html'
-    context = {
-        "lessons": Learn1.objects.all()
-    }
-    return render(request, template, context)
+    lessons = Learn1.objects.all().order_by('lessonNo')
+    return render(request, 'main/admin/lesson.html', {
+        # create obj for units
+        'units': units,
+        'lessons': lessons
+        })
 
 def funcLoadLesson(request, id):
     template = 'main/admin/viewLesson.html' 
@@ -171,12 +182,6 @@ def funcLoadLesson(request, id):
         "lesson": Learn1.objects.get(id=id)
     }
     return render(request, template, context)
-
-def alessonList(request):
-    return render(request, 'main/admin/lesson.html', {
-        # create obj for units
-        'lesson': Learn1.objects.all().order_by('lessonNo')
-        })
 
 def aAssessments(request):
     return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
@@ -192,23 +197,46 @@ def aLogs(request):
 
 def aOpenLesson(request):
     return render(request, 'main/admin/viewLesson.html', {'lesson': Student.objects.all()})
-
-def aLessonEditor(request, id):
-    return render(request, 'main/admin/lessonEditor.html', {
-        "lessons": Learn1.objects.all(),
-        'lesson': Learn1.objects.get(id=id)})
+    
+def createLesson(request, unit):
+    try:
+        if request.method == 'POST':
+            lesson = Learn1()
+            lesson.title = request.POST['title']
+            lesson.unitNo = request.POST['unitNo']
+            lesson.lessonNo = request.POST['lessonNo']
+            lesson.content = request.POST['content']
+            lesson.save()
+            sweetify.toast(request, title='Lesson Created!', icon='success', timer=3000)
+            return redirect('main:lesson')
+        else:
+            return render(request, "main/admin/lessonCreator.html",{
+                "units": units(),
+                "lessons": Learn1.objects.all().order_by('lessonNo'),
+                "currUnit": unit
+            })
+    except IntegrityError:
+        sweetify.toast(request, title='Lesson Number already Exist!', icon='error', timer=3000)
+        pass
+    except:
+        sweetify.toast(request, title='Error creating lesson!', icon='error', timer=3000)
 
 def updateLesson(request, id):
     try:
         if request.method == 'POST':
             lesson = Learn1.objects.get(id=id)
             lesson.title = request.POST['title']
-            # lesson.unitNo = request.POST['unitNo']
-            # lesson.lessonNo = request.POST['lessonNo']
+            # lesson.unitNo = lesson.unitNo
+            # lesson.lessonNo = lesson.lessonNo
             lesson.content = request.POST['updatedContent']
             lesson.save()
-            # sweetify.question(request, title="Are you sure you want to delete this lesson?", icon="question")
             sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
+        else:
+            return render(request, 'main/admin/lessonEditor.html', {
+            "units": units(),
+            "lessons": Learn1.objects.all().order_by('lessonNo'),
+            'lesson': Learn1.objects.get(id=id)})
+
     except:
         sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
         pass
@@ -216,14 +244,41 @@ def updateLesson(request, id):
 
 def deleteLesson(request, id):
     try:
-        if request.method == 'POST':
+        # sweetify.warning(request, 'Are you sure you want to delete this?', persistent="YES")
+        if request.method == 'GET':
             lesson = Learn1.objects.get(id=id)
             lesson.delete()
-            sweetify.toast(request, title='Lesson Updated!', icon='success', timer=3000)
-    except:
+            sweetify.toast(request, title='Lesson Deleted!', icon='success', timer=3000)
+    except Exception as e:
         sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
-        pass
     return redirect('main:lesson')
 
-def profile(request, id=1):
-    return render(request, 'main/myprofile.html', {'account': Account.objects.all()})
+def profile(request, id):
+    try:
+        if request.method == "POST":
+            account = Account.objects.get(id=id)
+            account.username = request.POST.get('username', '')
+            account.password = request.POST.get('password', '')
+            account.firstname = request.POST.get('firstname', '')
+            account.lastname = request.POST.get('lastname', '')
+            account.email = request.POST.get('email', '')
+            if 'userImage' in request.FILES:
+                account.image = request.FILES['userImage']
+            account.save()
+            setSession(request, id, request.POST.get('password', ''))
+            sweetify.toast(request, title='Profile updated!', icon='success', timer=3000)
+            return redirect('main:profile', id=id)
+    except Exception as e:
+        sweetify.toast(request, title='Error updating profile!', icon='error', timer=3000)
+        return redirect('main:profile', id=id)
+    return render(request, 'main/myprofile.html', {'account': Account.objects.get(id=id)})
+
+def deleteProfile(request, id):
+    try:
+        if request.method == 'GET':
+            user = Account.objects.get(id=id)
+            user.delete()
+            sweetify.sweetalert(request, title='Account Deleted!', text="You will be redirected to the log-in page.", icon='success', persistent="OK")
+    except Exception as e:
+        sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000)
+    return redirect('/')

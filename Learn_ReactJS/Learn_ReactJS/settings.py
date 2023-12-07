@@ -27,6 +27,8 @@ SECRET_KEY = 'django-insecure-*j0$1grk(1^9yju50bqvzywz^ibminxk-wcicyfsd87qnh$kps
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['localhost', 'yourdomain.com']
+
 
 #copy pasted
 TINYMCE_DEFAULT_CONFIG = {
