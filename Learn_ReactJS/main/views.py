@@ -258,6 +258,15 @@ def profile(request, id):
     try:
         if request.method == "POST":
             account = Account.objects.get(id=id)
+            
+            if account.username != request.POST.get('username', '') and Account.objects.filter(username=request.POST.get('username', '')).exists():
+                sweetify.toast(request, title='Username already in use', icon='error', timer=3000)
+                return render(request, 'main/myprofile.html', {'account': Account.objects.get(id=id)})
+            
+            if account.email != request.POST.get('email', '') and Account.objects.filter(email=request.POST.get('email', '')).exists():
+                sweetify.toast(request, title='E-mail already in use', icon='error', timer=3000)
+                return render(request, 'main/myprofile.html', {'account': Account.objects.get(id=id)})
+            
             account.username = request.POST.get('username', '')
             account.password = request.POST.get('password', '')
             account.firstname = request.POST.get('firstname', '')
@@ -271,7 +280,8 @@ def profile(request, id):
             return redirect('main:profile', id=id)
     except Exception as e:
         sweetify.toast(request, title='Error updating profile!', icon='error', timer=3000)
-        return redirect('main:profile', id=id)
+        # return redirect('main:profile', id=id)
+        return e
     return render(request, 'main/myprofile.html', {'account': Account.objects.get(id=id)})
 
 def deleteProfile(request, id):

@@ -32,6 +32,9 @@
     .sidenavProfile{
         border:3px solid #4fc3f7;
     }
+    #sidebar{
+        background-image:;
+    }
   </style>
   {% endblock head %}
   {% block body %}
@@ -56,16 +59,16 @@
               <a href="#!" class="brand-logo"><img src='{% static "main/assets/logo.png" %}' class="brand-logo"></a>
               <ul class="right">
                 {% if request.session.username %}
-                <li><a href="#">Welcome, {{ request.session.username }}!</a></li>
+                <li class="valign-wrapper"><img src="{{request.session.imagePath}}" class="circle" height="50" width="50"><a href="#">Welcome, {{ request.session.username }}!</a></li>
                 {% else %}
-                <li><a href="#">UserImg + Username123</a></li>
+                <li><a href="#">Welcome, User</a></li>
                 {% endif %}                     
               </ul>
             </div>
           </nav>
         </div>
         <ul class="sidenav" id="slide-out"><br>
-            <div class="container center-align">
+            <div class="center-align" id="sidebar">
                 <img class="circle sidenavProfile" width="150" height="150" src="{{request.session.imagePath}}" alt="">
                 {% if request.session.username %}
                 <p>{{request.session.username}}</p>

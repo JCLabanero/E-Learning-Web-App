@@ -7040,6 +7040,8 @@ input[type="range"]::-ms-thumb {
 	overflow-y: auto;
 	will-change: transform;
 	backface-visibility: hidden;
+	margin-top: -23px;
+	padding-top: 20px;
 	transform: translateX(-105%);
 }
 .sidenav.right-aligned {
