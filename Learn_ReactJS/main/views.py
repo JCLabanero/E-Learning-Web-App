@@ -178,6 +178,7 @@ def funcLessonList(request):
 def funcLoadLesson(request, id):
     template = 'main/admin/viewLesson.html' 
     context = {
+        "units": units(),
         "lessons": Learn1.objects.all(),
         "lesson": Learn1.objects.get(id=id)
     }

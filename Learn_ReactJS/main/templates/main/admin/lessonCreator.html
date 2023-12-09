@@ -51,7 +51,7 @@
         {%endfor%}
         
     </div>
-    <div class="container">   
+    <div>   
         <form action="{%url 'main:create-lesson' currUnit%}" method="POST">
             {% csrf_token %}
             <div class="row">
@@ -59,18 +59,18 @@
                     <label for="title">Title</label>
                     <input type="text" name="title" placeholder="Title" required>
                 </div>
-                <div class="col s3">
+                <div class="col s2">
                     <label for="lessonNo">Unit No.</label>
                     <input type="number" name="unitNo" id="unitNo" value="{{currUnit}}" required>
                 </div>
-                <div class="col s3">
+                <div class="col s2">
                     <label for="lessonNo">Lesson No.</label>
                     <input type="number" name="lessonNo" id="lessonNo" required>
                 </div>
-                <div class="col s12">
+                <div class="col s10">
                     <textarea name="content" >
                         Write your lesson here!
-                    </textarea>
+                    </textarea><br>
                 </div>
             </div>
             <div class="row center">
