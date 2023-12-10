@@ -2603,7 +2603,7 @@ a {
 
 .valign-wrapper {
 	display: flex;
-	align-items: left;
+	align-items: center;
 }
 
 .clearfix {

@@ -35,7 +35,7 @@
                         {%if request.session.type == 'a'%}
                         <button class="btn-small col s2 waves-effect waves-light actionBtn" onclick="location.href='{% url 'main:create-lesson' unit %}'">Add New Lesson</button>
                         {% comment %} <button class="btn-small col s2 waves-effect waves-light actionBtn">Edit</button> {% endcomment %}
-                        <button class="btn-small red col s2 waves-effect waves-light removeLesson" target-data={{units}}>remove</button>
+                        <button class="btn-small red col s2 waves-effect waves-light actionBtn" target-data={{lesson.id}}>remove</button>
                         {%endif%}
                     </div>
                     <div class="collapsible-body">

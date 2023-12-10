@@ -3,7 +3,10 @@
 {% block title %}Landing Page{% endblock title%} {% block content %}
 <ul class="collapsible">
 	{% for tut in Learn1 %}
-	
+	<li>
+		<div class="collapsible-header">{{tut.title}}</div>
+		<div class="collapsible-body"><span>{{tut.content|safe}}</span></div>
+	</li>
 	{% endfor %}
 </ul>
 
@@ -18,7 +21,8 @@
 				<p>{{tut.content|safe}}</p>
 			</div>
 			<div class="card-action">
-				<a href="{% url 'main:lesson' %}">View</a>
+				<a href="#">This is a link</a>
+				<a href="#">This is a link</a>
 			</div>
 		</div>
 	</div>
