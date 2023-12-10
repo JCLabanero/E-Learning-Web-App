@@ -61,8 +61,8 @@
                 {% if request.session.username %}
                 <li class="valign-wrapper"><img src="{{request.session.imagePath}}" class="circle" height="50" width="50"><a href="{% url 'main:profile' request.session.id%}">{{ request.session.username }}</a></li>
                 {% else %}
-                <li><a href="#">Welcome, User</a></li>
-                {% endif %}                     
+                <li><a href="#">User</a></li>
+                {% endif %}                    
               </ul>
             </div>
           </nav>
