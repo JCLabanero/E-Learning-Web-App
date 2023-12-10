@@ -35,7 +35,7 @@
                         {%if request.session.type == 'a'%}
                         <button class="btn-small col s2 waves-effect waves-light actionBtn" onclick="location.href='{% url 'main:create-lesson' unit %}'">Add New Lesson</button>
                         {% comment %} <button class="btn-small col s2 waves-effect waves-light actionBtn">Edit</button> {% endcomment %}
-                        <button class="btn-small red col s2 waves-effect waves-light removeLesson" target-data={{units}}>remove</button>
+                        <button class="btn-small red col s2 waves-effect waves-light removeUnit actionBtn" target-data={{unit}}>remove</button>
                         {%endif%}
                     </div>
                     <div class="collapsible-body">
@@ -68,7 +68,7 @@
             });
         });
         $('.removeLesson').on('click', function () {
-            var lessonID = $(this).attr('target');
+            var lessonID = $(this).attr('target-data');
             Swal.fire({
                 title: 'Are you sure you want to delete this?',
                 icon: 'question',
@@ -79,6 +79,22 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var deleteUrl = "{% url 'main:delete-lesson' 0 %}".replace('0', lessonID);
+                    location.href = deleteUrl;
+                }
+            });
+        });
+        $('.removeUnit').on('click', function () {
+            var unit = $(this).attr('target-data');
+            Swal.fire({
+                title: 'Are you sure you want to delete this?',
+                icon: 'question',
+                confirmButtonText: 'Yes',
+                confirmButtonColor: '#4fc3f7',
+                showCancelButton: true,
+                cancelButtonColor: 'red',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var deleteUrl = "{% url 'main:delete-unit' 0 %}".replace('0', unit);
                     location.href = deleteUrl;
                 }
             });
