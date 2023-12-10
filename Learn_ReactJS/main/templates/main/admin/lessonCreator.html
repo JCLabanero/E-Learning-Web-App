@@ -49,7 +49,6 @@
             </li>
         </ul>
         {%endfor%}
-        
     </div>
     <div class="col s10">   
         <form action="{%url 'main:create-lesson' currUnit%}" method="POST">
@@ -100,6 +99,7 @@
         });
         $('.collapsible').collapsible();
         $('select').formSelect()
+        {%if units%}
         {% for lesson in lessons %}
             {% if lesson.unitNo == currUnit %}
             $('#lessonNo').val({{lesson.lessonNo}}+1)
@@ -107,6 +107,9 @@
             $('#lessonNo').val(1)
             {% endif %}
         {% endfor %}
+        {%else%}
+        $('#lessonNo').val(1)
+        {%endif%}
     });
     $('#newUnit').on("click", function(){
         location.href="{% url 'main:create-lesson' 0 %}".replace('0', {{units|last}}+1)
