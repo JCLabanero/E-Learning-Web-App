@@ -26,48 +26,54 @@
         #profilepic{
             border: 3px solid #4fc3f7;
         }
+        .swal2-input{
+            width:90% !important;
+            margin: 0% 5% !important;
+        }
     </style>
 </head>
 <body>
     <main>
         <div class="container">
-            <form action="">
-                <div class="card">
-                    <div class="center">
-                        <sub>ID: 2019446578</sub><br><br>
-                        <img src="{% static 'main/assets/default-user-image.png'%}" alt="" height="150" width="150" class="circle modal-trigger" id="profilepic" href="#profilepicModal"><br><br>
-                        <button class="btn-small green waves-effect waves-light" type="button">Change Image</button>
-                    </div><br>
+            <div class="card">
+                <div class="center">
+                    <sub>ID: {{account.id}}</sub><br><br>
+                    <img src="{{account.image.url}}" alt="" height="150" width="150" class="circle modal-trigger" id="profilepic" href="#profilepicModal"><br><br>
+                    <button class="btn-small green waves-effect waves-light" id="uploadButton">Change Image</button>
+                </div><br>
+                <form action="{% url 'main:profile' account.id %}" method="POST" enctype="multipart/form-data">
+                    {%csrf_token%}
                     <div class="container row">
+                        <input type="file" id="userImage" name="userImage" accept="image/*" hidden>
                         <div class="divider"></div><br>
                         <div class="col s12">
-                            <label for="fname">Username</label>
-                            <input type="text" class="validate" name="username" placeholder="Username">
+                            <label for="username">Username</label>
+                            <input type="text" class="validate" name="username" value="{{account.username}}">
                         </div>
                         <div class="col s6">
-                            <label for="fname">First Name</label>
-                            <input type="text" class="validate" name="fname" placeholder="First name">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="validate" name="firstname" value="{{account.firstname}}">
                         </div>
                         <div class="col s6">
-                            <label for="fname">Last Name</label>
-                            <input type="text" class="validate" name="lname" placeholder="Last name">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="validate" name="lastname" value="{{account.lastname}}">
                         </div>
                         <div class="col s12">
-                            <label for="fname">E-mail Address</label>
-                            <input type="email" class="validate" name="email" placeholder="E-mail Address">
+                            <label for="email">E-mail Address</label>
+                            <input type="email" class="validate" name="email" value="{{account.email}}">
                         </div>
                         <div class="col s12">
-                            <label for="fname">Password</label>
-                            <input type="password" class="s" name="fname" placeholder="Last name">
+                            <label for="password">Password</label>
+                            <input type="password" class="password" name="password" value="{{request.session.password}}">
                         </div>
                         <div class="col s12 center">
                             <br>
                             <button class="btn-small green waves-effect waves-light" type="submit">Save</button>
-                            <button class="btn-small red waves-effect waves-light" type="button">Delete</button>
+                            <button class="btn-small red waves-effect waves-light" type="button" id="deleteAccount">Delete</button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div class="modal" id="profilepicModal">
             <div class="container modal-content center">
@@ -86,6 +92,7 @@
             event.stopPropagation();
             });
             $('.collapsible').collapsible();
+
         });
         $('.modal-trigger').on('click', function(){
             image = $(this).attr('src');
@@ -95,6 +102,42 @@
             var elems = document.querySelector('.modal');
             var instances = M.Modal.getInstance(elems);
             instances.close();
+        })
+        $("#uploadButton").on("click", function() {
+                $("#userImage").click();
+        });
+        $("#userImage").on("change", handleFileSelect)
+        
+        function handleFileSelect(event) {
+            const selectedFile = event.target.files[0];
+            $("#profilepic").attr("src", URL.createObjectURL(selectedFile));
+        }
+        $('#deleteAccount').on('click', function(){
+            Swal.fire({
+                title: "You're about to delete your account!",
+                text: "Enter your password to confirm this action",
+                icon: "warning",
+                input: 'password',
+                inputAttributes: {
+                    autocapitalize: 'off',
+                    class: 'container',
+                },
+                confirmButtonColor: '#4fc3f7',
+                cancelButtonColor: 'red',
+                showCancelButton: true,
+                preConfirm: (input)=>{
+                    if (input === "{{request.session.password}}") {
+                        return input;
+                    }else {
+                        Swal.showValidationMessage('Password incorrect, please try again!');
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href="{% url 'main:delete-profile' account.id %}"
+                }
+            })
         })
     </script>
 </body>

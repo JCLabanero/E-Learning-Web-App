@@ -91,12 +91,16 @@ class Quiz(models.Model):
     # pass
 
 class Quiz_Question(models.Model):
+    def choicesTemp():
+        defaultvar = {'A':'','B':'','C':'','D':''}
+        return defaultvar
+    
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question_text = models.TextField()
-    choices = models.JSONField()
+    choices = models.JSONField(default=choicesTemp)
     correct_choice = models.CharField(max_length=1)
     def __str__(self):
-        return f"{self.quiz.title} - Question {self.pk}: {self.question_text}"
+        return f"{self.question_text}"
     
 class Assessment_Question(models.Model):
     exam = models.ForeignKey(Assessment, on_delete=models.CASCADE)

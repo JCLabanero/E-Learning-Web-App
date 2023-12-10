@@ -7,8 +7,14 @@ urlpatterns = [
     path('',views.login, name="index"),
     path('logout/',views.logout, name="logout"),
     path('dashboard/',views.dashboard, name="dashboard"),
+
+    # Account CRUD
     path('login/submit/',views.login_submit, name="login_submit"),
     path('register/',views.register, name="register"),
+    path('a/profile/id=<int:id>/',views.profile, name="profile"),
+    path('a/profile/id=<int:id>/',views.deleteProfile, name="delete-profile"),
+
+
     path('a/',views.admin_home, name="admin_home"),
     path('a/students/',views.astudentlist, name="students"),
     path('a/students/new/',views.astudentnew, name="students_new"),
@@ -22,11 +28,12 @@ urlpatterns = [
     path('a/logs/',views.aLogs, name="logs"),
 
     path('a/lesson/id=<int:id>/',views.funcLoadLesson, name="viewLesson"),
-    path('a/lesson/lessonEditor/<int:id>',views.aLessonEditor, name="edit-lesson"),
-    path('a/lesson/lessonEditor/<int:id>/update',views.updateLesson, name="update-lesson"),
 
-    path('a/profile/',views.profile, name="profile"),
-
+    # Lesson CRUD
+    path('a/lesson/unit=<int:unit>/create/',views.createLesson, name="create-lesson"),
+    path('a/lesson/id=<int:id>/edit/',views.updateLesson, name="edit-lesson"), #if request method is not POST then load a ediatble lesson
+    path('a/lesson/id=<int:id>/update/',views.updateLesson, name="update-lesson"), #if request method is POST the update Lesson
+    path('a/lesson/<int:id>/delete/',views.deleteLesson, name="delete-lesson"),
 
 
 

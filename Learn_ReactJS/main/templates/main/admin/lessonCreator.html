@@ -23,6 +23,8 @@
     </style>
 </head>
 <main class="row">
+    {% comment %} <div class="col s12">
+    </div> {% endcomment %}
     <div class="container col s2">
         {%for unit in units%}
         <ul class="collapsible">
@@ -47,27 +49,32 @@
             </li>
         </ul>
         {%endfor%}
+        
     </div>
     <div>   
-        <form action="{%url 'main:update-lesson' lesson.id%}" method="POST">
+        <form action="{%url 'main:create-lesson' currUnit%}" method="POST">
             {% csrf_token %}
             <div class="row">
                 <div class="col s6">
                     <label for="title">Title</label>
-                    <input type="text" name="title" value="{{lesson.title}}" required>
+                    <input type="text" name="title" placeholder="Title" required>
                 </div>
-                <div class="col s4">
+                <div class="col s2">
+                    <label for="lessonNo">Unit No.</label>
+                    <input type="number" name="unitNo" id="unitNo" value="{{currUnit}}" required>
+                </div>
+                <div class="col s2">
                     <label for="lessonNo">Lesson No.</label>
-                    <input type="number" name="lessonNo" id="lessonNo" value="{{lesson.lessonNo}}" required readonly>
+                    <input type="number" name="lessonNo" id="lessonNo" required>
                 </div>
                 <div class="col s10">
-                    <textarea name="updatedContent">
-                        {{lesson.content}}
-                    </textarea>
+                    <textarea name="content" >
+                        Write your lesson here!
+                    </textarea><br>
                 </div>
             </div>
             <div class="row center">
-                <button class="btn-large center-align" type="submit">Save</button>
+                <button class="btn-large center-align" type="submit">Create</button>
                 {% comment %} <button class="btn-large center-align red">Cancel</button> {% endcomment %}
             </div> 
         </form>
@@ -86,13 +93,24 @@
         ],
         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
     });
+    M.AutoInit();
     $(document).ready(function(){
         $('.collapsible-header .actionBtn').click(function(event) {
         event.stopPropagation();
         });
         $('.collapsible').collapsible();
         $('select').formSelect()
+        {% for lesson in lessons %}
+            {% if lesson.unitNo == currUnit %}
+            $('#lessonNo').val({{lesson.lessonNo}}+1)
+            {%else%}
+            $('#lessonNo').val(1)
+            {% endif %}
+        {% endfor %}
     });
+    $('#newUnit').on("click", function(){
+        location.href="{% url 'main:create-lesson' 0 %}".replace('0', {{units|last}}+1)
+    })
 </script>
 
 </main>
