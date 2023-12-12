@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f2f2f2;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .response {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h2>Essay</h2>
+
+    <form id="essayQuizForm">
+        <div class="question">
+            <label for="question1">Question 1:</label>
+            <textarea id="question1" class="response" name="response1" rows="4" cols="50" required></textarea>
+        </div>
+
+        <div class="question">
+            <label for="question2">Question 2:</label>
+            <textarea id="question2" class="response" name="response2" rows="4" cols="50" required></textarea>
+        </div>
+
+        <!-- Add more questions as needed -->
+
+        <button type="button" class="submit-btn" onclick="submitQuiz()">Submit</button>
+    </form>
+</div>
