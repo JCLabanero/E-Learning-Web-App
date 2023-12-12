@@ -1,0 +1,48 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  header {
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+  
+  .add-quiz-section {
+    border: 1px solid #ccc;
+    padding: 1rem;
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  input,
+  select,
+  textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  textarea {
+    height: 10rem;
+  }
+  
+  .buttons {
+    text-align: right;
+  }
+  
+  button {
+    margin-right: 1rem;
+  }
+  
+  footer {
+    text-align: center;
+    font-size: .8rem;
+  }
