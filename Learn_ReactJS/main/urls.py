@@ -30,10 +30,12 @@ urlpatterns = [
     path('a/lesson/id=<int:id>/',views.funcLoadLesson, name="viewLesson"),
 
     # Lesson CRUD
-    path('a/lesson/unit=<int:unit>/create/',views.createLesson, name="create-lesson"),
+    path('a/unit-<int:unit>/lesson/create/',views.createLesson, name="create-lesson"),
     path('a/lesson/id=<int:id>/edit/',views.updateLesson, name="edit-lesson"), #if request method is not POST then load a ediatble lesson
     path('a/lesson/id=<int:id>/update/',views.updateLesson, name="update-lesson"), #if request method is POST the update Lesson
     path('a/lesson/<int:id>/delete/',views.deleteLesson, name="delete-lesson"),
+    path('a/unit/<int:unit>/delete/',views.deleteUnit, name="delete-unit"),
+
 
 
 

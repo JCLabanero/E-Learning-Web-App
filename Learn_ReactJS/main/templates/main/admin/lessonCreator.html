@@ -51,7 +51,7 @@
         {%endfor%}
         
     </div>
-    <div>   
+    <div class="col s10">   
         <form action="{%url 'main:create-lesson' currUnit%}" method="POST">
             {% csrf_token %}
             <div class="row">
@@ -60,12 +60,12 @@
                     <input type="text" name="title" placeholder="Title" required>
                 </div>
                 <div class="col s2">
-                    <label for="lessonNo">Unit No.</label>
+                    <label for="unitNo">Unit No.</label>
                     <input type="number" name="unitNo" id="unitNo" value="{{currUnit}}" required>
                 </div>
                 <div class="col s2">
                     <label for="lessonNo">Lesson No.</label>
-                    <input type="number" name="lessonNo" id="lessonNo" required>
+                    <input type="number" name="lessonNo" id="lessonNo" required readonly>
                 </div>
                 <div class="col s10">
                     <textarea name="content" >

@@ -254,6 +254,17 @@ def deleteLesson(request, id):
         sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000, position='top')
     return redirect('main:lesson')
 
+def deleteUnit(request, unit):
+    try:
+        # sweetify.warning(request, 'Are you sure you want to delete this?', persistent="YES")
+        if request.method == 'GET':
+            unit = Learn1.objects.filter(unitNo=unit)
+            unit.delete()
+            sweetify.toast(request, title='Unit Deleted!', icon='success', timer=3000, position='top')
+    except Exception as e:
+        sweetify.toast(request, title='Error deleting unit!', icon='error', timer=3000, position='top')
+    return redirect('main:lesson')
+
 def profile(request, id):
     try:
         if request.method == "POST":
