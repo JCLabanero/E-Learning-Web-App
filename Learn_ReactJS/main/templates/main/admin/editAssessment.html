@@ -1,0 +1,41 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html
+lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+ 
+<title>Edit Assessment Section</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+  <header>
+    <h1>Edit Assessment Section</h1>
+  </header>
+  <main>
+    <section class="add-quiz-section">
+      <h2>Assessment Name</h2>
+      <input type="text" id="quiz-name">
+      <h2>Upload Assessment</h2>
+      <input type="file" id="quiz-file">
+      <h2>Course</h2>
+      <select name="course" id="course">
+        <option value="Python">MPython</option>
+        <option value="Django">Django</option>
+        <option value="OOP">OOP</option>
+      </select>
+      <h2>Assessment Questions</h2>
+      <textarea name="quiz-questions" id="quiz-questions"></textarea>
+      <h2>Correct Answers</h2>
+      <textarea name="correct-answers" id="correct-answers"></textarea>
+      <div class="buttons">
+        <button type="submit">Submit</button>
+        <button type="cancel">Cancel</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
