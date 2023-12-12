@@ -2603,9 +2603,7 @@ a {
 
 .valign-wrapper {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: left;
+	align-items: center;
 }
 
 .clearfix {
@@ -8362,4 +8360,5 @@ input[type="range"]::-ms-thumb {
 	}
 }
 
+.padding{padding: 3rem !important}body{background-color: #f9f9fa}.card{border-radius: 5px;-webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);border: none;margin-bottom: 30px}.card .card-header{background-color: transparent;border-bottom: none;padding: 25px 20px}.card-block{padding: 1.25rem;margin-top:-40px}.card .card-header h5{margin-bottom: 0;color: #505458;font-size: 14px;font-weight: 600;display: inline-block;margin-right: 10px;line-height: 1.4}.text-muted{margin-bottom:0px}.user-activity-card .u-img .cover-img{width: 60px;height: 60px}.m-b-25{margin-top:20px}.user-activity-card .u-img .profile-img{width: 20px;height: 20px;position: absolute;bottom: -5px;right: -5px}.img-radius{border-radius: 5px}.user-activity-card .u-img{position: relative}.m-b-5{margin-bottom: 5px}h6{font-size: 14px}.card .card-block p{line-height: 25px}.text-muted{color: #919aa3 !important}.card .card-block p{line-height: 25px}.text-muted{color: #919aa3 !important}.m-r-10{margin-right: 4px}.feather{font-family: 'feather' !important;speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;line-height: 1;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale}.text-center{margin-top: 15px}
 /*# sourceMappingURL=materialize.css.map */
