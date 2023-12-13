@@ -1,8 +1,39 @@
-<form action="{% url "main:func_students_new" %}" method="POST">
+{% extends "main/header.html" %}
+{% block content %}
+<div class="row">
+<form action="{% url "main:func_students_new" %}" method="POST">{% csrf_token %}
+	<div class="row">
+		<div class="input-field">
+			<label for="student_no">Student Number</label>
 	<input type="text" name="stud_no" id="student_no" />
+</div>
+<div class="input-field">
+	<label for="email">Email</label>
 	<input type="text" name="email" id="email" />
+</div>
+<div class="input-field">
+	<label for="username">Username</label>
 	<input type="text" name="username" id="username" />
+</div>
+<div class="row">
+	<div class="input-field col s6">
 	<input type="text" name="firstname" id="firstname" />
+	<label for="firstname">First Name</label>
+</div>
+<div class="row">
+<div class="input-field col s6">
 	<input type="text" name="lastname" id="lastname" />
-	<button type="submit">Add</button>
+	<label for="lastname">Last Name</label>
+</div>
+			</div>
+			<div class="row">
+
+				<div class="input-field">
+					<input type="password" name="password" id="password" class="validate" />
+					<label for="password">Password</label>
+				</div>
+			</div>
+	<button type="submit" class="btn">Add</button>
 </form>
+</div>
+{% endblock content %}
