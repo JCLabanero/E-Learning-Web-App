@@ -105,7 +105,11 @@ class Quiz_Question(models.Model):
 class Assessment_Question(models.Model):
     exam = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     question_text = models.TextField()
-    choices = models.JSONField()
+    optionA = models.CharField(max_length=255,default='A')
+    optionB = models.CharField(max_length=255,default='B')
+    optionC = models.CharField(max_length=255,default='C')
+    optionD = models.CharField(max_length=255,default='D')
+    
     correct_choice = models.CharField(max_length=1)
     def __str__(self):
         return f"{self.quiz.title} - Question {self.pk}: {self.question_text}"
@@ -116,3 +120,8 @@ class Badge(models.Model):
     requirements = models.TextField()
     def __str__(self) -> str:
         return self.name
+    
+class UserBadge(models.Model):
+    user = models.ForeignKey(Student, on_delete=models.CASCADE)
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    earned_at = models.DateTimeField(auto_now_add=True)
