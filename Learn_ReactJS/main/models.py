@@ -72,7 +72,7 @@ class Lesson(models.Model):
 class Assessment(models.Model):
     #id
     #fk lesson_id, which lesson it belongs
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, default="No Exam Title")
     lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
     # questions and answers
     # unit scope? 
@@ -84,20 +84,15 @@ class Quiz(models.Model):
     #id
     #fk lesson_id, which lesson it belongs
     # questions and answers
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, default="No Quiz Title")
     lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
     # pass
-
 class Quiz_Question(models.Model):
-    def choicesTemp():
-        defaultvar = {'A':'','B':'','C':'','D':''}
-        return defaultvar
-    
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question_text = models.TextField()
-    choices = models.JSONField(default=choicesTemp)
+
     correct_choice = models.CharField(max_length=1)
     def __str__(self):
         return f"{self.question_text}"
