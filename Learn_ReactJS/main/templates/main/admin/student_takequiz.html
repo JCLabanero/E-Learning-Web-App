@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
     <div class="col s12 m10 card">
-        <form action="{% url 'main:score'%}" method='POST'>
+        <form action="{% url 'main:score' type id%}" method='POST'>
           {%csrf_token%}
                 <br>
                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -16,23 +16,24 @@
 <script>
   x = 1
   {%for item in questions%}
-    q = `<blockquote>
+    q = `<blockquote name="Q${x}">
       {{item.question_text}}
+      <input type="hidden" name="Q${x}ID" value="{{item.id}}">
     </blockquote>
     <label>
-      <input name="Q${x}" type="radio" value="A"/>
+      <input name="A${x}" type="radio" value="A"/>
       <span>{{item.optionA}}</span>
     </label>
     <label>
-      <input name="Q${x}" type="radio" value="B"/>
+      <input name="A${x}" type="radio" value="B"/>
       <span>{{item.optionB}}</span>
     </label>
     <label>
-      <input name="Q${x}" type="radio" value="C"/>
+      <input name="A${x}" type="radio" value="C"/>
       <span>{{item.optionC}}</span>
     </label>
     <label>
-      <input name="Q${x}" type="radio" value="D"/>
+      <input name="A${x}" type="radio" value="D"/>
       <span>{{item.optionD}}</span>
     </label>
       <br>`
