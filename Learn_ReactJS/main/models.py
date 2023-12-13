@@ -86,7 +86,7 @@ class Quiz(models.Model):
     # questions and answers
     title = models.CharField(max_length=255, default="No Quiz Title")
     # lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
-    lesson = models.CharField(max_length=255)
+    lesson = models.CharField(max_length=255, default="Lesson")
     def __str__(self):
         return self.title
     # pass
