@@ -19,6 +19,11 @@
         .collapsible-body{
             padding-left: 20px;
         }
+        .noContentMessage{
+            width: 70vw;
+            height: 70vh;
+            padding: 15% 0px;
+        }
     </style>
 </head>
 <body>
@@ -27,6 +32,7 @@
             <div class="row">
                 <button class="btn-small col s2 waves-effect waves-light right" id="newUnit">Add New Unit and Lesson</button>
             </div>
+            {%if units%}
             {%for unit in units%}
             <ul class="collapsible">
                 <li>
@@ -58,6 +64,14 @@
                 </li>
             </ul>
             {%endfor%}
+            {%else%}
+            <div class="card container noContentMessage">
+                <div class="center">
+                    <img src="{%static 'main/assets/box.png'%}" height="150" width="150">
+                    <h5>There are currently no lessons uploaded...</h5>
+                </div>
+            </div>
+            {%endif%}
         </div>
     </main>
     <script>
