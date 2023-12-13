@@ -18,7 +18,7 @@
 </head>
 <body>
 <main class="container">
-    <form action="{% url 'main:create-assessment'%}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'main:create-assessment' type%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col s8">
@@ -28,9 +28,20 @@
             <div class="col s4">
                 <label for="assessmentRef">Assessment</label>
                 <select name="assessmentRef" required>
-                    {% for item in assessment %}
-                    <option value="{{ item }}">{{ item }}</option>
+                    {% comment %} {%if type == 'quiz'%}
+                    {% for item in quizzes%}
+                      {# Your loop logic here #}
+                      <option value="{{ item }}">{{ item }}</option>
                     {% endfor %}
+                    {%else%}
+                    {% for item in exams%}
+                      {# Your loop logic here #}
+                      <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    {%endif%} {% endcomment %}
+                    {%for item in lessons%}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {%endfor%}
                 </select>
             </div>
         </div>
@@ -45,7 +56,12 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
-        for (let x = 1; x <= 10; x++) {
+        if('{{type}}' == 'quiz'){
+            count = 10
+        }else if('{{type}}' == 'exam'){
+            count = 15
+        }
+        for (let x = 1; x <= count; x++) {
             let question = `
                 <div class="card questionBox">
                     <h5>Question ${x}:</h5><br>
@@ -69,8 +85,8 @@
             `;
             $('#questionContainer').append(question);
         }
-        M.AutoInit();
     });
+    M.AutoInit();
 </script>
 </body>
 </html>

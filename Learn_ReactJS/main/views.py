@@ -187,15 +187,19 @@ def funcLoadLesson(request, id):
 def aAssessments(request):
     return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams':Assessment.objects.all()})
 
-def assessmentCreate(request):
+def assessmentCreate(request, type):
     try:
         if request.method == "POST":
+            if type == 'quiz':
+                x = 11
+            elif type == 'exam':
+                x = 16
             quiz = Quiz()
             quiz.title = request.POST.get('assessmentTitle', '')
             quiz.lesson = request.POST.get('assessmentRef', '')
             quiz.save()
 
-            for x in range(1, 11):
+            for x in range(1, x):
                 quizQ = Quiz_Question()
                 quizQ.quiz = quiz
                 quizQ.question_text = request.POST.get(f'question{x}')
@@ -205,11 +209,10 @@ def assessmentCreate(request):
                 quizQ.optionD = request.POST.get(f'option{x}D')
                 quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
                 quizQ.save()
-
             sweetify.toast(request, title='Quiz Added', icon='success', timer=3000, position='top')
-            return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+            return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
         else:
-            return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+            return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
     except Exception as e:
         sweetify.toast(request, title='Error creating quiz', icon='error', timer=3000, position='top')
 def assessmentEdit(request):
