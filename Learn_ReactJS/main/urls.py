@@ -43,7 +43,7 @@ urlpatterns = [
     path('a/assessments/submit/',views.assessmentCreate, name="add-quiz"),
 
     path('a/assessments/<str:type>/<int:id>/take/',views.studentTakeQuiz, name='take-assessment'),
-    path('a/assessments/result/',views.result, name='score')
+    path('a/assessments/<str:type>/<int:id>/result/',views.result, name='score')
 
 
     

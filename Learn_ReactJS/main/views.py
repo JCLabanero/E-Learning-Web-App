@@ -427,12 +427,34 @@ def studentTakeQuiz(request, type, id):
             questions = Assessment_Question.objects.filter(exam=id).order_by('id')[random_indices[0]:random_indices[0]+x]
         else:
             questions = Assessment_Question.objects.filter(exam=id)
-    return render(request, 'main/admin/student_takequiz.html', {'questions': questions})
+    return render(request, 'main/admin/student_takequiz.html', {'questions': questions, 'type':type, 'id':id})
 
-def result(request):
-    score = str(100)+'%'
+def result(request, type, id):
+    score = 0
     if request.method == "POST":
-        sweetify.sweetalert(request, title=score, icon='success', persistent="OK")
-        return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+        x = 1
+        if type == 'quiz':
+            while x <= 3:
+                set = Quiz_Question.objects.get(id=request.POST.get(f'Q{x}ID',''))
+                if set.correct_choice == request.POST.get(f'A{x}',''):
+                    score+=1
+                x+=1
+            finalScore = f'{(score * 100/3):.2f}'
+            if float(finalScore) >= 75.00:
+                sweetify.sweetalert(request, title='You Passed!',text=finalScore+'%', icon='success', persistent="OK")
+            else:
+                sweetify.sweetalert(request, title='You Failed!',text=finalScore+'%', icon='error', persistent="OK")
+        elif type == 'exam':
+            while x <= 3:
+                set = Assessment_Question.objects.get(id=request.POST.get(f'Q{x}ID',''))
+                if set.correct_choice == request.POST.get(f'A{x}',''):
+                    score+=1
+                x+=1
+            finalScore = f'{(score * 100/5):.2f}'
+            if float(finalScore) >= 75.00:
+                sweetify.sweetalert(request, title='You Passed!',text=finalScore+'%', icon='success', persistent="OK")
+            else:
+                sweetify.sweetalert(request, title='You Failed!',text=finalScore+'%', icon='error', persistent="OK")
+        return redirect('main:assessments')
     
 
