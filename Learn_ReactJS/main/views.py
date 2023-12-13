@@ -332,3 +332,7 @@ def deleteProfile(request, id):
     except Exception as e:
         sweetify.toast(request, title='Error updating lesson!', icon='error', timer=3000, position='top')
     return redirect('/')
+
+def index(request):
+    return render(request,'main/frontpage.html')
+    pass

@@ -4,7 +4,8 @@ from . import views
 app_name = "main"
 
 urlpatterns = [
-    path('',views.login, name="index"),
+    path('',views.index, name="index"),
+    path('login/',views.login, name="login"),
     path('logout/',views.logout, name="logout"),
     path('dashboard/',views.dashboard, name="dashboard"),
 
@@ -39,6 +40,8 @@ urlpatterns = [
     path('a/assessments/create/',views.assessmentCreate, name="create-assessment"),
     path('a/assessments/edit/',views.assessmentEdit, name="edit-assessment"),
     path('a/assessments/submit/',views.assessmentCreate, name="add-quiz"),
+
+
 
     
 

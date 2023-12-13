@@ -37,7 +37,7 @@ class Student(models.Model):
 class Learn1(models.Model):
     id = models.IntegerField('ID','id',primary_key=True)
     unitNo = models.IntegerField('Unit No','unitNo',default=0)
-    lessonNo = models.IntegerField('Lesson No.','lessonNo',default=0)
+    lessonNo = models.IntegerField('Lesson No.','lessonNo',default=1)
     title = models.CharField(max_length=200)
     content = models.TextField(default="The content of the lesson should go here.")
     published = models.DateTimeField("date published", default=datetime.now())
