@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('lessonNo', models.IntegerField(default=0, verbose_name='Lesson No.')),
                 ('title', models.CharField(max_length=200)),
                 ('content', models.TextField(default='The content of the lesson should go here.')),
-                ('published', models.DateTimeField(default=datetime.datetime(2023, 12, 13, 13, 47, 45, 570182), verbose_name='date published')),
+                ('published', models.DateTimeField(default=datetime.datetime(2023, 12, 13, 13, 9, 42, 187438), verbose_name='date published')),
             ],
         ),
         migrations.CreateModel(
@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(default='No Quiz Title', max_length=255)),
-                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.learn1')),
+                ('lesson', models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
@@ -83,6 +83,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('question_text', models.TextField()),
+                ('choices', models.JSONField(default=main.models.Quiz_Question.choicesTemp))
                 ('correct_choice', models.CharField(max_length=1)),
                 ('quiz', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.quiz')),
             ],
@@ -93,7 +94,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(default='Title here', max_length=200, verbose_name='Title')),
                 ('content', models.TextField(default='The content of the lesson should go here.', verbose_name='Content')),
-                ('published', models.DateTimeField(default=datetime.datetime(2023, 12, 13, 13, 47, 45, 570182), verbose_name='date published')),
+                ('published', models.DateTimeField(default=datetime.datetime(2023, 12, 13, 11, 49, 23, 675267), verbose_name='date published')),
                 ('unit_no', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='main.unit')),
             ],
         ),

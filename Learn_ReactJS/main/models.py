@@ -85,13 +85,18 @@ class Quiz(models.Model):
     #fk lesson_id, which lesson it belongs
     # questions and answers
     title = models.CharField(max_length=255, default="No Quiz Title")
-    lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
+    # lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
+    lesson = models.CharField(max_length=255)
     def __str__(self):
         return self.title
     # pass
 class Quiz_Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question_text = models.TextField()
+    optionA = models.CharField(max_length=255,default='A')
+    optionB = models.CharField(max_length=255,default='B')
+    optionC = models.CharField(max_length=255,default='C')
+    optionD = models.CharField(max_length=255,default='D')
 
     correct_choice = models.CharField(max_length=1)
     def __str__(self):

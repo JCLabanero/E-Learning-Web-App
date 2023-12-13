@@ -185,18 +185,23 @@ def funcLoadLesson(request, id):
     return render(request, template, context)
 
 def aAssessments(request):
-    return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
+    return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams':Assessment.objects.all()})
 
-def assessmentCreate(request):
+def assessmentCreate(request, type):
     try:
         if request.method == "POST":
+            if type == 'quiz':
+                x = 11
+            elif type == 'exam':
+                x = 16
             quiz = Quiz()
-            quiz.title = request.POST['assessmentTitle']
-            quiz.lesson = request.POST['assessmentRef']
+            quiz.title = request.POST.get('assessmentTitle', '')
+            quiz.lesson = request.POST.get('assessmentRef', '')
             quiz.save()
-            
-            quizQ = Quiz_Question()
-            for x in range(1, 10, 1):
+
+            for x in range(1, x):
+                quizQ = Quiz_Question()
+                quizQ.quiz = quiz
                 quizQ.question_text = request.POST.get(f'question{x}')
                 quizQ.optionA = request.POST.get(f'option{x}A')
                 quizQ.optionB = request.POST.get(f'option{x}B')
@@ -205,13 +210,11 @@ def assessmentCreate(request):
                 quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
                 quizQ.save()
             sweetify.toast(request, title='Quiz Added', icon='success', timer=3000, position='top')
-            return redirect('main:assessments')
+            return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
         else:
-            return render(request, 'main/admin/createAssessment.html', {'assessment': Learn1.objects.all()})
+            return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
     except Exception as e:
         sweetify.toast(request, title='Error creating quiz', icon='error', timer=3000, position='top')
-        return e
-
 def assessmentEdit(request):
     return render(request, 'main/admin/editAssessment.html', {'assessment': Student.objects.all()})
 
