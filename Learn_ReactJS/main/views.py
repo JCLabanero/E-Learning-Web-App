@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 import sweetify
+from django.db.models import Count
+import random
 import time
 
 # Create your views here.
@@ -408,6 +410,29 @@ def index(request):
     return render(request,'main/frontpage.html')
     pass
 
-def studentTakeQuiz(request):
-    return render(request,'main/admin/student_takequiz.html')
-    pass
+def studentTakeQuiz(request, type, id):
+    if type == 'quiz':
+        x = 3
+        total_questions = Quiz_Question.objects.filter(quiz=id).count()
+        if total_questions >= 3:
+            random_indices = random.sample(range(1, total_questions), x)
+            questions = Quiz_Question.objects.filter(quiz=id).order_by('id')[random_indices[0]:random_indices[0]+x]
+        else:
+            questions = Quiz_Question.objects.filter(quiz=id)
+    elif type == 'exam':
+        x = 5
+        total_questions = Assessment_Question.objects.filter(exam=id).count()
+        if total_questions >= 3:
+            random_indices = random.sample(range(1, total_questions), x)
+            questions = Assessment_Question.objects.filter(exam=id).order_by('id')[random_indices[0]:random_indices[0]+x]
+        else:
+            questions = Assessment_Question.objects.filter(exam=id)
+    return render(request, 'main/admin/student_takequiz.html', {'questions': questions})
+
+def result(request):
+    score = str(100)+'%'
+    if request.method == "POST":
+        sweetify.sweetalert(request, title=score, icon='success', persistent="OK")
+        return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+    
+

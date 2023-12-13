@@ -38,7 +38,7 @@
                             {%for quiz in quizzes%}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="lesson1-1.html" class="col s12">{{quiz.title}}</a>
+                                    <a href="{%url 'main:take-assessment' 'quiz' quiz.id%}" class="col s12">{{quiz.title}}</a>
                                     {%if request.session.type == 'a'%}
                                     <button class="btn-small" onclick="location.href='{% url "main:edit-assessment" 'quiz' quiz.id %}'">Edit</button>
                                     <button class="btn-small red removeAssessment" target-data='{{quiz.id}}'>remove</button>
@@ -63,7 +63,7 @@
                             {% for exam in exams %}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="lesson1-1.html" class="col s12">Learn ReactJS Course</a>
+                                    <a href="{%url 'main:take-assessment' 'exam' exam.id%}" class="col s12">Learn ReactJS Course</a>
                                     {%if request.session.type == 'a'%}
                                     <button class="btn-small" onclick="location.href='{% url "main:edit-assessment" 'exam' exam.id %}'">Edit</button>
                                     <button class="btn-small red removeAssessment" target-data='{{exam.id}}'>remove</button>
