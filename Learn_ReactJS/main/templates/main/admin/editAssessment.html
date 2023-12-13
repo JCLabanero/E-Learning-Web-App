@@ -18,35 +18,20 @@
 </head>
 <body>
 <main class="container">
-    <form action="{% url 'main:create-assessment' type%}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'main:edit-assessment' type quiz.id%}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col s8">
                 <label for="assessmentTitle">Title</label>
-                <input type="text" name="{{quiz.title}}" placeholder="Assessment Title" required>
+                <input type="text" name="assessmentTitle" placeholder="Assessment Title" value="{{quiz.title}}" required>
             </div>
             <div class="col s4">
-                <label for="assessmentRef">Assessment</label>
-                <select name="assessmentRef" required>
-                    {% comment %} {%if type == 'quiz'%}
-                    {% for item in quizzes%}
-                      {# Your loop logic here #}
-                      <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                    {%else%}
-                    {% for item in exams%}
-                      {# Your loop logic here #}
-                      <option value="{{ item }}">{{ item }}</option>
-                    {% endfor %}
-                    {%endif%} {% endcomment %}
-                    {%for item in lessons%}
-                    <option value="{{ item }}">{{ item }}</option>
-                    {%endfor%}
-                </select>
+                <label for="assessmentRef">Target Lesson</label>
+                <input type='text' name='assessmentRef' value="{{quiz.lesson}}" readonly>
             </div>
         </div>
         <div id="questionContainer">
-            <!-- Your dynamic question generation goes here -->
+           
         </div>
         <div class="buttons center">
             <button type="submit" class="btn-small">Submit</button>
@@ -56,35 +41,31 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
-        if('{{type}}' == 'quiz'){
-            count = 10
-        }else if('{{type}}' == 'exam'){
-            count = 15
-        }
-        for (let x = 1; x <= count; x++) {
-            let question = `
-                <div class="card questionBox">
-                    <h5>Question ${x}:</h5><br>
-                    <textarea name="question${x}" class="questionBox" placeholder="Write your question here...">qwe${x}</textarea>
-                    <ul>
-                        <li class="valign-wrapper">A. <input type="text" name="option${x}A" value="qwe${x}A"></li>
-                        <li class="valign-wrapper">B. <input type="text" name="option${x}B" value="qwe${x}B"></li>
-                        <li class="valign-wrapper">C. <input type="text" name="option${x}C" value="qwe${x}C"></li>
-                        <li class="valign-wrapper">D. <input type="text" name="option${x}D" value="qwe${x}D"></li>
-                    </ul>
-                    <div>
-                        <label for="correctAnswer${x}">Correct Answer</label>
-                        <select name="correctAnswer${x}">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
-                    </div>
-                </div>
-            `;
-            $('#questionContainer').append(question);
-        }
+        x = 1
+        {%for item in quizzes_question%}
+        question = `<div class="card questionBox">
+            <textarea name="question${x}" class="questionBox" placeholder="Write your question here...">{{item.question_text}}</textarea>
+            <ul>
+                <li class="valign-wrapper">A. <input type="text" name="option${x}A" value='{{item.optionA}}'></li>
+                <li class="valign-wrapper">B. <input type="text" name="option${x}B" value='{{item.optionB}}'></li>
+                <li class="valign-wrapper">C. <input type="text" name="option${x}C" value='{{item.optionC}}'></li>
+                <li class="valign-wrapper">D. <input type="text" name="option${x}D" value='{{item.optionD}}'></li>
+            </ul>
+            <div>
+                <label for="correctAnswer${x}">Correct Answer</label>
+                <select name="correctAnswer${x}">
+                    <option value="{{item.correct_choice}}" selected>Answer: {{item.correct_choice}}</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+        </div>`
+        $('#questionContainer').append(question);
+        x++
+        {%endfor%}
+        M.AutoInit();
     });
     M.AutoInit();
 </script>

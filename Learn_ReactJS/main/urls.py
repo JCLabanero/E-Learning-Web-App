@@ -39,6 +39,7 @@ urlpatterns = [
     path('a/assessments/',views.aAssessments, name="assessments"),
     path('a/assessments/<str:type>/create/',views.assessmentCreate, name="create-assessment"),
     path('a/assessments/<str:type>/<int:id>/edit/',views.assessmentEdit, name="edit-assessment"),
+    path('a/assessments/<int:id>/delete',views.assessmentDelete, name="delete-assessment"),
     path('a/assessments/submit/',views.assessmentCreate, name="add-quiz"),
 
     path('u/assessments/takequiz',views.studentTakeQuiz)
