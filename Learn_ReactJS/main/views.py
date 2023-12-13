@@ -96,7 +96,7 @@ def register(request):
                 account.save()
                 sweetify.toast(request, title='Account Registered', icon='success', timer=3000, position='top')
                 # Authenticate the user after successfully creating the account
-                return redirect('main:dashboard')
+                return redirect('main:login')
     except Exception as e:
         # Handle exceptions (e.g., print or log the error)
         print(f"An error occurred: {str(e)}")
@@ -192,31 +192,46 @@ def assessmentCreate(request, type):
         if request.method == "POST":
             if type == 'quiz':
                 x = 11
+                quiz = Quiz()
+                quiz.title = request.POST.get('assessmentTitle', '')
+                quiz.lesson = request.POST.get('assessmentRef', '')
+                quiz.save()
+                for x in range(1, x):
+                    quizQ = Quiz_Question()
+                    quizQ.quiz = quiz
+                    quizQ.question_text = request.POST.get(f'question{x}')
+                    quizQ.optionA = request.POST.get(f'option{x}A')
+                    quizQ.optionB = request.POST.get(f'option{x}B')
+                    quizQ.optionC = request.POST.get(f'option{x}C')
+                    quizQ.optionD = request.POST.get(f'option{x}D')
+                    quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
+                    quizQ.save()
             elif type == 'exam':
                 x = 16
-            quiz = Quiz()
-            quiz.title = request.POST.get('assessmentTitle', '')
-            quiz.lesson = request.POST.get('assessmentRef', '')
-            quiz.save()
+                exam = Assessment()
+                exam.title = request.POST.get('assessmentTitle','')
+                exam.lesson = request.POST.get('assessmentRef','')
+                for x in range(1, x):
+                    quizQ = Assessment_Question()
+                    quizQ.quiz = quiz
+                    quizQ.question_text = request.POST.get(f'question{x}')
+                    quizQ.optionA = request.POST.get(f'option{x}A')
+                    quizQ.optionB = request.POST.get(f'option{x}B')
+                    quizQ.optionC = request.POST.get(f'option{x}C')
+                    quizQ.optionD = request.POST.get(f'option{x}D')
+                    quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
+                    quizQ.save()
 
-            for x in range(1, x):
-                quizQ = Quiz_Question()
-                quizQ.quiz = quiz
-                quizQ.question_text = request.POST.get(f'question{x}')
-                quizQ.optionA = request.POST.get(f'option{x}A')
-                quizQ.optionB = request.POST.get(f'option{x}B')
-                quizQ.optionC = request.POST.get(f'option{x}C')
-                quizQ.optionD = request.POST.get(f'option{x}D')
-                quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
-                quizQ.save()
             sweetify.toast(request, title='Quiz Added', icon='success', timer=3000, position='top')
             return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
         else:
             return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
     except Exception as e:
         sweetify.toast(request, title='Error creating quiz', icon='error', timer=3000, position='top')
-def assessmentEdit(request):
-    return render(request, 'main/admin/editAssessment.html', {'assessment': Student.objects.all()})
+
+def assessmentEdit(request,type,id):
+    return render(request, 'main/admin/editAssessment.html', {'quiz': Quiz.objects.get(id=id),'type':type, 'quizzes_question': Quiz_Question.objects.all()})
+    pass
 
 def aAchievements(request):
     return render(request, 'main/admin/achievements.html', {'achievements': Student.objects.all()})
