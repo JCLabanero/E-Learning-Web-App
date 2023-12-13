@@ -41,7 +41,7 @@ urlpatterns = [
     path('a/assessments/<str:type>/<int:id>/edit/',views.assessmentEdit, name="edit-assessment"),
     path('a/assessments/submit/',views.assessmentCreate, name="add-quiz"),
 
-
+    path('u/assessments/takequiz',views.studentTakeQuiz)
 
     
 

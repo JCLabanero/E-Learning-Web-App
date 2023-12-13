@@ -354,3 +354,7 @@ def deleteProfile(request, id):
 def index(request):
     return render(request,'main/frontpage.html')
     pass
+
+def studentTakeQuiz(request):
+    return render(request,'main/admin/student_takequiz.html')
+    pass

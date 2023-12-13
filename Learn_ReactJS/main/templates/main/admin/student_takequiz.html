@@ -1,0 +1,65 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col s12 m2">
+        <div class="collection">
+            <a href="#!" class="collection-item">Alan</a>
+            <a href="#!" class="collection-item">Alan</a>
+            <a href="#!" class="collection-item">Alan</a>
+            <a href="#!" class="collection-item">Alan</a>
+          </div>
+    </div>
+    <div class="col s12 m10">
+        <form action="#">
+            <blockquote>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, optio. Consequuntur adipisci aperiam nostrum ipsa asperiores numquam, voluptatum distinctio error.
+              </blockquote>
+              <label>
+                <input name="group1" type="radio" />
+                <span>Yellow</span>
+              </label>
+              <label>
+                <input name="group1" type="radio" />
+                <span>Yellow</span>
+              </label>
+              <label>
+                <input name="group1" type="radio" />
+                <span>Yellow</span>
+              </label>
+              <label>
+                <input name="group1" type="radio" />
+                <span>Yellow</span>
+              </label>
+
+                {% comment %} I want the radio buttons bellow to be different from the ones on top, will you help me? I'm using materialize.css {% endcomment %}
+                <blockquote>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, optio. Consequuntur adipisci aperiam nostrum ipsa asperiores numquam, voluptatum distinctio error.
+                  </blockquote>
+                  <label>
+                    <input name="group2" type="radio" />
+                    <span>Yellow</span>
+                  </label>
+                  <label>
+                    <input name="group2" type="radio" />
+                    <span>Yellow</span>
+                  </label>
+                  <label>
+                    <input name="group2" type="radio" />
+                    <span>Yellow</span>
+                  </label>
+                  <label>
+                    <input name="group2" type="radio" />
+                    <span>Yellow</span>
+                  </label>
+                <br>
+                <br>
+                  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                  </button>
+          </form>
+    </div>
+</div>
+
+{% endblock content %}
