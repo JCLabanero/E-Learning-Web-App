@@ -1,100 +1,92 @@
 {% include "main/header.html" %}
 <!DOCTYPE html>
-<html
-lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Add Assessment Section</title>
-        <style>
-          textarea{
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Assessment Section</title>
+    <style>
+        textarea {
             resize: none;
-            height: 250px ;
-          }
-          .questionBox{
+            height: 250px;
+        }
+
+        .questionBox {
             padding: 5px 10px;
-          }
-        </style>
-      </head>
-{% comment %} {% load static %}
+        }
+    </style>
+</head>
 <body>
-  <main>
-    <section class="add-quiz-section">
-      <h2>Assessment Name</h2>
-      <input type="text" id="quiz-name">
-      <h2>Upload Assessment</h2>
-      <input type="file" id="quiz-file">
-      <h2>Course</h2>
-      <select name="course" id="course">
-        <option value="Python">MPython</option>
-        <option value="Django">Django</option>
-        <option value="OOP">OOP</option>
-      </select>
-      <h2>Assessment Questions</h2>
-      <textarea name="quiz-questions" id="quiz-questions"></textarea>
-      <h2>Correct Answers</h2>
-      <textarea name="correct-answers" id="correct-answers"></textarea>
-      <div class="buttons">
-        <button type="submit">Submit</button>
-        <button type="cancel">Cancel</button>
-      </div>
-    </section> {% endcomment %}
-  <main class="container">
-    <form action="{% url 'main:add-quiz'%}" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="row">
-        <div class="col s8">
-
-          <label for="assessmentTitle">Title</label>
-          <input type="text" name="assessmentTitle" placeholder="Assessment Title" required>
-
+<main class="container">
+    <form action="{% url 'main:create-assessment' type%}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col s8">
+                <label for="assessmentTitle">Title</label>
+                <input type="text" name="assessmentTitle" placeholder="Assessment Title" required>
+            </div>
+            <div class="col s4">
+                <label for="assessmentRef">Assessment</label>
+                <select name="assessmentRef" required>
+                    {% comment %} {%if type == 'quiz'%}
+                    {% for item in quizzes%}
+                      {# Your loop logic here #}
+                      <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    {%else%}
+                    {% for item in exams%}
+                      {# Your loop logic here #}
+                      <option value="{{ item }}">{{ item }}</option>
+                    {% endfor %}
+                    {%endif%} {% endcomment %}
+                    {%for item in lessons%}
+                    <option value="{{ item }}">{{ item }}</option>
+                    {%endfor%}
+                </select>
+            </div>
         </div>
-          <div class="col s4">
-          <label for="assessmentRef">Assessment</label>
-          <select name="assessmentRef" required>
-            {%for item in assessment%}
-            <option value="{{item}}">{{item}}</option>
-            {% endfor %}
-          </select>
+        <div id="questionContainer">
+            <!-- Your dynamic question generation goes here -->
         </div>
-      </div>
-      <div id="questionContainer">
-      <div> 
-      </form>
-  </main>
-</body>
+        <div class="buttons center">
+            <button type="submit" class="btn-small">Submit</button>
+        </div>
+    </form>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-  $(document).ready(function() {
-    for (let x = 1; x <= 10; x++) {
-      let question = `
-        <div class="card questionBox">
-          <h5>Question ${x}:</h5><br>
-          <textarea name="question${x}" class="questionBox" placeholder="write your question here..." >qwe${x}</textarea>
-          <ul>
-            <li class="valign-wrapper">A. <input type="text" name="option${x}A" value="qwe${x}A"></li>
-            <li class="valign-wrapper">B. <input type="text" name="option${x}B" value="qwe${x}B"></li>
-            <li class="valign-wrapper">C. <input type="text" name="option${x}C" value="qwe${x}C"></li>
-            <li class="valign-wrapper">D. <input type="text" name="option${x}D" value="qwe${x}D"></li>
-          </ul>
-          <div>
-            <label for="correctAnswer${x}">Correct Answer</label>
-            <select name="correctAnswer${x}">
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-            </select>
-          </div>        </div>
-      `;
-      $('#questionContainer').append(question);
-    }
-  
-    let submitBtn = `
-      <div class="buttons center">
-        <button type="submit" class="btn-small">Submit</button>
-      </div><br>`;
-    $('#questionContainer').append(submitBtn);
-    M.AutoInit()
-  });
+    $(document).ready(function() {
+        if('{{type}}' == 'quiz'){
+            count = 10
+        }else if('{{type}}' == 'exam'){
+            count = 15
+        }
+        for (let x = 1; x <= count; x++) {
+            let question = `
+                <div class="card questionBox">
+                    <h5>Question ${x}:</h5><br>
+                    <textarea name="question${x}" class="questionBox" placeholder="Write your question here...">qwe${x}</textarea>
+                    <ul>
+                        <li class="valign-wrapper">A. <input type="text" name="option${x}A" value="qwe${x}A"></li>
+                        <li class="valign-wrapper">B. <input type="text" name="option${x}B" value="qwe${x}B"></li>
+                        <li class="valign-wrapper">C. <input type="text" name="option${x}C" value="qwe${x}C"></li>
+                        <li class="valign-wrapper">D. <input type="text" name="option${x}D" value="qwe${x}D"></li>
+                    </ul>
+                    <div>
+                        <label for="correctAnswer${x}">Correct Answer</label>
+                        <select name="correctAnswer${x}">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            $('#questionContainer').append(question);
+        }
+    });
+    M.AutoInit();
 </script>
+</body>
 </html>
