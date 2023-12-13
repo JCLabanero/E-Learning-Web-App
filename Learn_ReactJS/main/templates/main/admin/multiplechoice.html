@@ -1,0 +1,52 @@
+{% include "main/header.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Quiz</title>
+
+    {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}" />
+    
+</head>
+<body>
+    <main>
+        <div class="container mt-5">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-10 col-lg-10">
+                    <div class="border">
+                        <div class="question bg-white p-3 border-bottom">
+                            <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                                <h4>Quiz</h4><span>(1 of 20)</span></div>
+                        </div>
+                        <div class="question bg-white p-3 border-bottom">
+                            <div class="d-flex flex-row align-items-center question-title">
+                                <h3 class="text-danger">Q.</h3>
+                                <h5 class="mt-1 ml-2">Which of the following country has largest population?</h5>
+                            </div><div class="ans ml-2">
+    <label class="radio"> <input type="radio" name="Pilipens" value="Pilipens"> <span>Pilipens</span>
+    </label>    
+    </div><div class="ans ml-2">
+    <label class="radio"> <input type="radio" name="Pilipinas" value="Pilipinas"> <span>Pilipinas</span>
+    </label>    
+    </div><div class="ans ml-2">
+    <label class="radio"> <input type="radio" name=">PH" value=">PH"> <span>PH</span>
+    </label>    
+    </div><div class="ans ml-2">
+    <label class="radio"> <input type="radio" name="HP" value="HP"> <span>HP</span>
+    </label>    
+    </div></div>
+                        <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white"><button class="btn btn-primary d-flex align-items-center btn-danger" type="button"><i class="fa fa-angle-left mt-1 mr-1"></i>&nbsp;previous</button><button class="btn btn-primary border-success align-items-center btn-success" type="button">Next<i class="fa fa-angle-right ml-2"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        
+    </script>
+</body>
+</html>
