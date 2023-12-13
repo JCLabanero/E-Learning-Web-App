@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 import sweetify
+from django.db.models import Count
+import random
 import time
 
 # Create your views here.
@@ -186,6 +188,14 @@ def funcLoadLesson(request, id):
 
 def aAssessments(request):
     return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams':Assessment.objects.all()})
+def assessmentDelete(request, id):
+    try:
+        quiz = Quiz.objects.get(id=id)
+    except:
+        quiz = Assessment.objects.get(id=id)
+    sweetify.toast(request, title='Assessment Deleted!', icon='success', timer=3000, position='top')
+    quiz.delete()
+    return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams':Assessment.objects.all()})
 
 def assessmentCreate(request, type):
     try:
@@ -206,14 +216,17 @@ def assessmentCreate(request, type):
                     quizQ.optionD = request.POST.get(f'option{x}D')
                     quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
                     quizQ.save()
+                sweetify.toast(request, title='Quiz Added', icon='success', timer=3000, position='top')
+                return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
             elif type == 'exam':
                 x = 16
-                exam = Assessment()
-                exam.title = request.POST.get('assessmentTitle','')
-                exam.lesson = request.POST.get('assessmentRef','')
+                quiz = Assessment()
+                quiz.title = request.POST.get('assessmentTitle', '')
+                quiz.lesson = request.POST.get('assessmentRef', '')
+                quiz.save()
                 for x in range(1, x):
                     quizQ = Assessment_Question()
-                    quizQ.quiz = quiz
+                    quizQ.exam = quiz
                     quizQ.question_text = request.POST.get(f'question{x}')
                     quizQ.optionA = request.POST.get(f'option{x}A')
                     quizQ.optionB = request.POST.get(f'option{x}B')
@@ -221,17 +234,59 @@ def assessmentCreate(request, type):
                     quizQ.optionD = request.POST.get(f'option{x}D')
                     quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
                     quizQ.save()
-
-            sweetify.toast(request, title='Quiz Added', icon='success', timer=3000, position='top')
-            return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
+                sweetify.toast(request, title='Exam Added', icon='success', timer=3000, position='top')
+                return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
         else:
             return render(request, 'main/admin/createAssessment.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all(), 'type': type, 'lessons': Learn1.objects.all()})
     except Exception as e:
-        sweetify.toast(request, title='Error creating quiz', icon='error', timer=3000, position='top')
+        sweetify.toast(request, title='Error creating assessment', icon='error', timer=3000, position='top')
+        return e
 
 def assessmentEdit(request,type,id):
-    return render(request, 'main/admin/editAssessment.html', {'quiz': Quiz.objects.get(id=id),'type':type, 'quizzes_question': Quiz_Question.objects.all()})
-    pass
+    if type == 'quiz':
+        quiz_instance = Quiz_Question.objects.filter(quiz=Quiz.objects.get(id=id))
+    else:
+        exam_instance = Assessment_Question.objects.filter(exam=Assessment.objects.get(id=id))
+    if request.method == "POST":
+            if type == 'quiz':
+                x = 1
+                quiz = Quiz.objects.get(id=id)
+                quiz.title = request.POST.get('assessmentTitle', '')
+                quiz.lesson = request.POST.get('assessmentRef', '')
+                quiz.save()
+
+                quiz_questions = Quiz_Question.objects.filter(quiz=quiz)
+                for quizQ in quiz_questions:
+                    quizQ.question_text = request.POST.get(f'question{x}')
+                    quizQ.optionA = request.POST.get(f'option{x}A')
+                    quizQ.optionB = request.POST.get(f'option{x}B')
+                    quizQ.optionC = request.POST.get(f'option{x}C')
+                    quizQ.optionD = request.POST.get(f'option{x}D')
+                    quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
+                    quizQ.save()
+                    x+=1
+
+            elif type == 'exam':
+                x = 1
+                exam = Assessment.objects.get(id=id)
+                exam.title = request.POST.get('assessmentTitle','')
+                exam.lesson = request.POST.get('assessmentRef','')
+                quiz_questions = Assessment_Question.objects.filter(exam=exam)
+                for quizQ in quiz_questions:
+                    quizQ.question_text = request.POST.get(f'question{x}')
+                    quizQ.optionA = request.POST.get(f'option{x}A')
+                    quizQ.optionB = request.POST.get(f'option{x}B')
+                    quizQ.optionC = request.POST.get(f'option{x}C')
+                    quizQ.optionD = request.POST.get(f'option{x}D')
+                    quizQ.correct_choice = request.POST.get(f'correctAnswer{x}')
+                    quizQ.save()
+                    x+=1
+            sweetify.toast(request, title='Assessment Updated!', icon='success', timer=3000, position='top')
+            return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+    if type == 'quiz':
+        return render(request, 'main/admin/editAssessment.html', {'quiz': Quiz.objects.get(id=id),'type':type, 'quizzes_question': quiz_instance})
+    elif type == 'exam':
+        return render(request, 'main/admin/editAssessment.html', {'quiz': Assessment.objects.get(id=id),'type':type, 'quizzes_question': exam_instance})
 
 def aAchievements(request):
     return render(request, 'main/admin/achievements.html', {'achievements': Student.objects.all()})
@@ -355,6 +410,29 @@ def index(request):
     return render(request,'main/frontpage.html')
     pass
 
-def studentTakeQuiz(request):
-    return render(request,'main/admin/student_takequiz.html')
-    pass
+def studentTakeQuiz(request, type, id):
+    if type == 'quiz':
+        x = 3
+        total_questions = Quiz_Question.objects.filter(quiz=id).count()
+        if total_questions >= 3:
+            random_indices = random.sample(range(1, total_questions), x)
+            questions = Quiz_Question.objects.filter(quiz=id).order_by('id')[random_indices[0]:random_indices[0]+x]
+        else:
+            questions = Quiz_Question.objects.filter(quiz=id)
+    elif type == 'exam':
+        x = 5
+        total_questions = Assessment_Question.objects.filter(exam=id).count()
+        if total_questions >= 3:
+            random_indices = random.sample(range(1, total_questions), x)
+            questions = Assessment_Question.objects.filter(exam=id).order_by('id')[random_indices[0]:random_indices[0]+x]
+        else:
+            questions = Assessment_Question.objects.filter(exam=id)
+    return render(request, 'main/admin/student_takequiz.html', {'questions': questions})
+
+def result(request):
+    score = str(100)+'%'
+    if request.method == "POST":
+        sweetify.sweetalert(request, title=score, icon='success', persistent="OK")
+        return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams': Assessment.objects.all()})
+    
+

@@ -26,7 +26,7 @@
                 <input type="text" name="assessmentTitle" placeholder="Assessment Title" required>
             </div>
             <div class="col s4">
-                <label for="assessmentRef">Assessment</label>
+                <label for="assessmentRef">Target Lesson</label>
                 <select name="assessmentRef" required>
                     {% comment %} {%if type == 'quiz'%}
                     {% for item in quizzes%}
@@ -50,7 +50,7 @@
         </div>
         <div class="buttons center">
             <button type="submit" class="btn-small">Submit</button>
-        </div>
+        </div><br>
     </form>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -85,6 +85,7 @@
             `;
             $('#questionContainer').append(question);
         }
+        M.AutoInit();
     });
     M.AutoInit();
 </script>

@@ -28,17 +28,21 @@
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header row valign-wrapper">
-                        <p class="col s10">Quizzes</p>
+                        <p class="col s12">Quizzes</p>
+                        {%if request.session.type == 'a'%}
                         <button class="btn-small col s2 waves-effect waves-light actionBtn" onclick="location.href='{%url 'main:create-assessment' 'quiz' %}'">Add New Quiz</button>
+                        {%endif%}
                     </div>
                     <div class="collapsible-body">
                         <ul>
                             {%for quiz in quizzes%}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="lesson1-1.html" class="col s12">{{quiz.title}}</a>
+                                    <a href="{%url 'main:take-assessment' 'quiz' quiz.id%}" class="col s12">{{quiz.title}}</a>
+                                    {%if request.session.type == 'a'%}
                                     <button class="btn-small" onclick="location.href='{% url "main:edit-assessment" 'quiz' quiz.id %}'">Edit</button>
-                                    <button class="btn-small red">remove</button>
+                                    <button class="btn-small red removeAssessment" target-data='{{quiz.id}}'>remove</button>
+                                    {%endif%}
                                 </div>
                             </li>
                             {%endfor%}
@@ -49,17 +53,21 @@
             <ul class="collapsible">
                 <li>
                     <div class="collapsible-header row valign-wrapper">
-                        <p class="col s10">Examinations</p>
+                        <p class="col s12">Examinations</p>
+                        {%if request.session.type == 'a'%}
                         <button class="btn-small col s2 waves-effect waves-light actionBtn" onclick="location.href='{%url 'main:create-assessment' 'exam'%}'">Add New Exam</button>
+                        {%endif%}
                     </div>
                     <div class="collapsible-body">
                         <ul>
                             {% for exam in exams %}
                             <li>
                                 <div class="valign-wrapper row">
-                                    <a href="lesson1-1.html" class="col s12">Learn ReactJS Course</a>
+                                    <a href="{%url 'main:take-assessment' 'exam' exam.id%}" class="col s12">Learn ReactJS Course</a>
+                                    {%if request.session.type == 'a'%}
                                     <button class="btn-small" onclick="location.href='{% url "main:edit-assessment" 'exam' exam.id %}'">Edit</button>
-                                    <button class="btn-small red">remove</button>
+                                    <button class="btn-small red removeAssessment" target-data='{{exam.id}}'>remove</button>
+                                    {%endif%}
                                 </div>
                             </li>
                             {% endfor %}
@@ -70,6 +78,34 @@
         </div>
     </main>
     <script>
+        $('.removeAssessment').on('click', function(){
+            targetData = $(this).attr('target-data')
+            Swal.fire({
+                title: "You're about to delete your account!",
+                text: "Enter your password to confirm this action",
+                icon: "warning",
+                input: 'password',
+                inputAttributes: {
+                    autocapitalize: 'off',
+                    class: 'container',
+                },
+                confirmButtonColor: '#4fc3f7',
+                cancelButtonColor: 'red',
+                showCancelButton: true,
+                preConfirm: (input)=>{
+                    if (input === "{{request.session.password}}") {
+                        return input;
+                    }else {
+                        Swal.showValidationMessage('Password incorrect, please try again!');
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href="{% url 'main:delete-assessment' 0 %}".replace(0,targetData)
+                }
+            })
+        })
         M.AutoInit();        
     </script>
 </body>

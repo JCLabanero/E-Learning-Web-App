@@ -73,7 +73,8 @@ class Assessment(models.Model):
     #id
     #fk lesson_id, which lesson it belongs
     title = models.CharField(max_length=255, default="No Exam Title")
-    lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
+    # lesson = models.ForeignKey(Learn1, on_delete=models.CASCADE)
+    lesson = models.CharField(max_length=255, default="Lesson")
     # questions and answers
     # unit scope? 
     # pass
