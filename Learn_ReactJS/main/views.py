@@ -185,7 +185,7 @@ def funcLoadLesson(request, id):
     return render(request, template, context)
 
 def aAssessments(request):
-    return render(request, 'main/admin/assessments.html', {'assessment': Student.objects.all()})
+    return render(request, 'main/admin/assessments.html', {'quizzes': Quiz.objects.all(), 'exams':Assessment.objects.all()})
 
 def assessmentCreate(request):
     try:
